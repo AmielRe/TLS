@@ -11,25 +11,48 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import com.amiel.tls.R;
+import com.amiel.tls.TabAdapter;
+import com.google.android.material.tabs.TabLayout;
 
-public class DashboardFragment extends Fragment {
+public class TopazFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private TopazViewModel topazViewModel;
+    private TabAdapter TopazAdapter;
+    private TabLayout TopazTabLayout;
+    private ViewPager TopazViewPager;
+
+    private int[] tabIcons = {
+            R.drawable.ic_boy,
+            R.drawable.ic_girl
+    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
+        topazViewModel =
+                ViewModelProviders.of(this).get(TopazViewModel.class);
         View root = inflater.inflate(R.layout.fragment_topaz, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(this, new Observer<String>() {
+        /*final TextView textView = root.findViewById(R.id.text_dashboard);
+        topazViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
-        });
+        });*/
+
+        TopazViewPager = (ViewPager) root.findViewById(R.id.viewPager_topaz);
+        TopazTabLayout = (TabLayout) root.findViewById(R.id.tabLayout_topaz);
+        TopazAdapter = new TabAdapter(getActivity().getSupportFragmentManager());
+        TopazAdapter.addFragment(new TopazBoysFragment(), getResources().getString(R.string.title_boys));
+        TopazAdapter.addFragment(new TopazGirlsFragment(), getResources().getString(R.string.title_girls));
+        TopazViewPager.setAdapter(TopazAdapter);
+        TopazTabLayout.setupWithViewPager(TopazViewPager);
+
+        TopazTabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        TopazTabLayout.getTabAt(1).setIcon(tabIcons[1]);
+
         return root;
     }
 }
