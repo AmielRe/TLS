@@ -3,4 +3,23 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!-- Color palette -->
+    <color name="Green50">#E8F5E9</color>
+    <color name="Green100">#C8E6C9</color>
+    <color name="Green200">#A5D6A7</color>
+    <color name="Green300">#81C784</color>
+    <color name="Green400">#66BB6A</color>
+    <color name="Green500">#4CAF50</color>
+    <color name="Green600">#43A047</color>
+    <color name="Green700">#388E3C</color>
+    <color name="Green800">#2E7D32</color>
+    <color name="Green900">#1B5E20</color>
+    <color name="GreenA100">#B9F6CA</color>
+    <color name="GreenA200">#69F0AE</color>
+    <color name="GreenA400">#00E676</color>
+    <color name="GreenA700">#00C853</color>
+
+    <!-- Basic -->
+    <color name="white">#FFFFFF</color>
 </resources>
