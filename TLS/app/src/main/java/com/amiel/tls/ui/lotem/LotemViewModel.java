@@ -1,4 +1,4 @@
-package com.amiel.tls.ui.home;
+package com.amiel.tls.ui.lotem;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

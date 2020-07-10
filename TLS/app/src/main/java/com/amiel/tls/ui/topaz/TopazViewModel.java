@@ -1,4 +1,4 @@
-package com.amiel.tls.ui.dashboard;
+package com.amiel.tls.ui.topaz;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
