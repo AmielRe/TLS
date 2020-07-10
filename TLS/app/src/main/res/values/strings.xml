@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">TLS</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
+    <!-- Areas -->
+    <string name="title_lotem">לוטם</string>
+    <string name="title_topaz">טופז</string>
+
+    <!-- Gender -->
+    <string name="title_boys">בנים</string>
+    <string name="title_girls">בנות</string>
 </resources>
