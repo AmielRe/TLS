@@ -15,9 +15,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.amiel.tls.R;
 import com.amiel.tls.TabAdapter;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.tabs.TabLayout;
 
 public class TopazFragment extends Fragment {
+
+    FloatingActionMenu topazMainFAB;
+    FloatingActionButton topazAddRoomFAB, topazAddPersonFAB;
 
     private TopazViewModel topazViewModel;
     private TabAdapter TopazAdapter;
@@ -52,6 +57,10 @@ public class TopazFragment extends Fragment {
 
         TopazTabLayout.getTabAt(0).setIcon(tabIcons[0]);
         TopazTabLayout.getTabAt(1).setIcon(tabIcons[1]);
+
+        topazMainFAB = (FloatingActionMenu) root.findViewById(R.id.material_design_android_floating_action_menu_topaz);
+        topazAddRoomFAB = (FloatingActionButton) root.findViewById(R.id.material_design_floating_action_menu_room_topaz);
+        topazAddPersonFAB = (FloatingActionButton) root.findViewById(R.id.material_design_floating_action_menu_person_topaz);
 
         return root;
     }

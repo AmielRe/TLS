@@ -15,9 +15,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.amiel.tls.R;
 import com.amiel.tls.TabAdapter;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.tabs.TabLayout;
 
 public class LotemFragment extends Fragment {
+
+    FloatingActionMenu lotemMainFAB;
+    FloatingActionButton lotemAddRoomFAB, lotemAddPersonFAB;
 
     private LotemViewModel lotemViewModel;
     private TabAdapter LotemAdapter;
@@ -52,6 +57,10 @@ public class LotemFragment extends Fragment {
 
         LotemTabLayout.getTabAt(0).setIcon(tabIcons[0]);
         LotemTabLayout.getTabAt(1).setIcon(tabIcons[1]);
+
+        lotemMainFAB = (FloatingActionMenu) root.findViewById(R.id.material_design_android_floating_action_menu_lotem);
+        lotemAddRoomFAB = (FloatingActionButton) root.findViewById(R.id.material_design_floating_action_menu_room_lotem);
+        lotemAddPersonFAB = (FloatingActionButton) root.findViewById(R.id.material_design_floating_action_menu_person_lotem);
 
         return root;
     }
