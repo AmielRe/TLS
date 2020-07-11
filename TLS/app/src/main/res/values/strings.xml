@@ -8,4 +8,8 @@
     <!-- Gender -->
     <string name="title_boys">בנים</string>
     <string name="title_girls">בנות</string>
+
+    <!-- FAB labels -->
+    <string name="new_person">חייל חדש</string>
+    <string name="new_room">חדר חדש</string>
 </resources>
