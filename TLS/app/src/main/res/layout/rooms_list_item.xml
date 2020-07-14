@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:layoutDirection="rtl"
+    android:clickable="true"
+    android:focusable="true">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingRight="15dp"
+        android:background="@drawable/card_background_selector"
+        android:layoutDirection="rtl">
+
+        <ImageView
+            android:id="@+id/rooms_list__item_room_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_home_black_24dp"
+            android:layout_alignParentEnd="true"/>
+
+        <Button
+            android:id="@+id/rooms_list_item_room_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="הסר"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_marginTop="@dimen/text_margin"
+            android:background="@color/colorAccent"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/rooms_list__item_room_image"
+            android:focusable="false"/>
+
+        <TextView
+            android:id="@+id/rooms_list_item_room_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Room Name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/rooms_list_item_room_capacity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Room Capacity"
+            android:layout_alignParentStart="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_below="@id/rooms_list_item_room_name"
+            android:paddingTop="@dimen/text_margin"/>
+
+    </RelativeLayout>
+</FrameLayout>
