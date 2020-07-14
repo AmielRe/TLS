@@ -1,5 +1,6 @@
 package com.amiel.tls;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,6 +19,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
+    @NonNull
     public Fragment getItem(int position) {
         return mFragmentList.get(position);
     }
