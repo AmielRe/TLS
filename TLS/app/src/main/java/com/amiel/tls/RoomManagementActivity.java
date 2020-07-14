@@ -69,7 +69,7 @@ public class RoomManagementActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(Map<Integer, Person> data) {
-                PersonsListAdapter personsListAdapter = new PersonsListAdapter(getApplicationContext(), R.layout.persons_list_item);
+                PersonsListAdapter personsListAdapter = new PersonsListAdapter(RoomManagementActivity.this, R.layout.persons_list_item);
                 for(Map.Entry<Integer,Person> currPerson : data.entrySet())
                 {
                     personsListAdapter.add(currPerson.getValue());

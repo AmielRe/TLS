@@ -1,7 +1,9 @@
 package com.amiel.tls;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -86,16 +88,32 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
             viewHolder.removePerson.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Person toRemove = new Person();
-                    for(Person currPerson : personsList) {
-                        if(currPerson.MID.equalsIgnoreCase(viewHolder.personMID.getText().toString())) {
-                            toRemove = currPerson;
-                            break;
-                        }
-                    }
-                    DBHandler.removePerson(toRemove);
-                    personsList.remove(toRemove);
-                    notifyDataSetChanged();
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    alertDialog.setTitle("שים לב");
+                    alertDialog.setMessage("האם אתה בטוח שברצונך למחוק שורה זו?");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "כן",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Person toRemove = new Person();
+                                    for(Person currPerson : personsList) {
+                                        if(currPerson.MID.equalsIgnoreCase(viewHolder.personMID.getText().toString())) {
+                                            toRemove = currPerson;
+                                            break;
+                                        }
+                                    }
+                                    DBHandler.removePerson(toRemove);
+                                    personsList.remove(toRemove);
+                                    notifyDataSetChanged();
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "בטל",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
                 }
             });
 
