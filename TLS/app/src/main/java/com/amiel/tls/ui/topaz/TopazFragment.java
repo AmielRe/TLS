@@ -1,33 +1,50 @@
 package com.amiel.tls.ui.topaz;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.DatePicker;
+import android.widget.ListView;
+import android.widget.RadioGroup;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.amiel.tls.R;
+import com.amiel.tls.RoomsListAdapter;
 import com.amiel.tls.TabAdapter;
+import com.amiel.tls.db.DBHandler;
+import com.amiel.tls.db.entities.Person;
+import com.amiel.tls.db.entities.Room;
+import com.amiel.tls.CustomRoomSpinnerAdapter;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseError;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class TopazFragment extends Fragment {
 
-    FloatingActionMenu topazMainFAB;
-    FloatingActionButton topazAddRoomFAB, topazAddPersonFAB;
-
-    private TopazViewModel topazViewModel;
     private TabAdapter TopazAdapter;
     private TabLayout TopazTabLayout;
     private ViewPager TopazViewPager;
+
+    private final Map<Integer, Room> availableRooms = new HashMap<>();
 
     private int[] tabIcons = {
             R.drawable.ic_boy,
@@ -36,16 +53,7 @@ public class TopazFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        topazViewModel =
-                ViewModelProviders.of(this).get(TopazViewModel.class);
         View root = inflater.inflate(R.layout.fragment_topaz, container, false);
-        /*final TextView textView = root.findViewById(R.id.text_dashboard);
-        topazViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
 
         TopazViewPager = (ViewPager) root.findViewById(R.id.viewPager_topaz);
         TopazTabLayout = (TabLayout) root.findViewById(R.id.tabLayout_topaz);
@@ -57,10 +65,6 @@ public class TopazFragment extends Fragment {
 
         TopazTabLayout.getTabAt(0).setIcon(tabIcons[0]);
         TopazTabLayout.getTabAt(1).setIcon(tabIcons[1]);
-
-        topazMainFAB = (FloatingActionMenu) root.findViewById(R.id.material_design_android_floating_action_menu_topaz);
-        topazAddRoomFAB = (FloatingActionButton) root.findViewById(R.id.material_design_floating_action_menu_room_topaz);
-        topazAddPersonFAB = (FloatingActionButton) root.findViewById(R.id.material_design_floating_action_menu_person_topaz);
 
         return root;
     }

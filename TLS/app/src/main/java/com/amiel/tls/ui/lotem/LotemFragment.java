@@ -1,30 +1,46 @@
 package com.amiel.tls.ui.lotem;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.DatePicker;
+import android.widget.ListView;
+import android.widget.RadioGroup;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.amiel.tls.R;
+import com.amiel.tls.RoomsListAdapter;
 import com.amiel.tls.TabAdapter;
+import com.amiel.tls.db.DBHandler;
+import com.amiel.tls.db.entities.Person;
+import com.amiel.tls.db.entities.Room;
+import com.amiel.tls.CustomRoomSpinnerAdapter;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseError;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class LotemFragment extends Fragment {
 
-    FloatingActionMenu lotemMainFAB;
-    FloatingActionButton lotemAddRoomFAB, lotemAddPersonFAB;
-
-    private LotemViewModel lotemViewModel;
     private TabAdapter LotemAdapter;
     private TabLayout LotemTabLayout;
     private ViewPager LotemViewPager;
@@ -36,16 +52,7 @@ public class LotemFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        lotemViewModel =
-                ViewModelProviders.of(this).get(LotemViewModel.class);
         View root = inflater.inflate(R.layout.fragment_lotem, container, false);
-        /*final TextView textView = root.findViewById(R.id.text_home);
-        lotemViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
 
         LotemViewPager = (ViewPager) root.findViewById(R.id.viewPager_lotem);
         LotemTabLayout = (TabLayout) root.findViewById(R.id.tabLayout_lotem);
@@ -57,10 +64,6 @@ public class LotemFragment extends Fragment {
 
         LotemTabLayout.getTabAt(0).setIcon(tabIcons[0]);
         LotemTabLayout.getTabAt(1).setIcon(tabIcons[1]);
-
-        lotemMainFAB = (FloatingActionMenu) root.findViewById(R.id.material_design_android_floating_action_menu_lotem);
-        lotemAddRoomFAB = (FloatingActionButton) root.findViewById(R.id.material_design_floating_action_menu_room_lotem);
-        lotemAddPersonFAB = (FloatingActionButton) root.findViewById(R.id.material_design_floating_action_menu_person_lotem);
 
         return root;
     }
