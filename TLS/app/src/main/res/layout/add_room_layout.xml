@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:id="@+id/add_room_lay_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="@dimen/text_margin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_room_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/room_name_hint"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/add_room_type_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/option_margin"
+            android:layout_weight="1"
+            android:ems="10"
+            android:paddingLeft="4sp"
+            android:paddingRight="4sp"
+            android:text="@string/room_type_hint"
+            android:textAppearance="@style/TextAppearance.Design.Counter"
+            android:textColor="?android:attr/textColorHint" />
+
+        <RadioGroup
+            android:id="@+id/add_room_radio_group_type"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/text_margin"
+            android:checkedButton="@+id/add_room_radio_topaz">
+
+            <RadioButton
+                android:id="@+id/add_room_radio_topaz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_weight="1"
+                android:text="@string/title_topaz" />
+
+            <RadioButton
+                android:id="@+id/add_room_radio_lotem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_lotem" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/add_room_gender_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/option_margin"
+            android:layout_weight="1"
+            android:ems="10"
+            android:paddingLeft="4sp"
+            android:paddingRight="4sp"
+            android:text="@string/room_gender_hint"
+            android:textAppearance="@style/TextAppearance.Design.Counter"
+            android:textColor="?android:attr/textColorHint" />
+
+        <RadioGroup
+            android:id="@+id/add_room_radio_group_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/text_margin"
+            android:checkedButton="@+id/add_room_radio_boy">
+
+            <RadioButton
+                android:id="@+id/add_room_radio_boy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_weight="1"
+                android:text="@string/title_boys" />
+
+            <RadioButton
+                android:id="@+id/add_room_radio_girl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_girls" />
+
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_room_max_capacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/room_max_capacity"
+                android:inputType="number"
+                android:textAlignment="viewStart" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
