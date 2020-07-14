@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "993829939381",
+    "firebase_url": "https://tls-9a07b.firebaseio.com",
+    "project_id": "tls-9a07b",
+    "storage_bucket": "tls-9a07b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993829939381:android:6707c0cf41510e684376fc",
+        "android_client_info": {
+          "package_name": "com.amiel.tls"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993829939381-rh1kc60f5drv7ik1t0n3h11f8bnorrv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiN9KaMurRhSAfQQd7aE2oNTFy3QW94mw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993829939381-rh1kc60f5drv7ik1t0n3h11f8bnorrv0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
