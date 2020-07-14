@@ -202,7 +202,9 @@ public class MainActivity extends AppCompatActivity {
                         newPerson.armyPeriod = armyPeriodRadioGroup.indexOfChild(armyPeriodRadioGroup.findViewById(armyPeriodRadioGroup.getCheckedRadioButtonId()));
 
                         for(Map.Entry<Integer, Room> currRoom : availableRooms.entrySet()){
-                            if(currRoom.getValue().roomName.equals(((Room) roomsSpinner.getSelectedItem()).roomName)) {
+                            if(currRoom.getValue().roomName.equals(((Room) roomsSpinner.getSelectedItem()).roomName)
+                            && currRoom.getValue().roomType.equals(((Room) roomsSpinner.getSelectedItem()).roomType)
+                            && currRoom.getValue().roomGender.equals(((Room) roomsSpinner.getSelectedItem()).roomGender)){
                                 newPerson.roomID = currRoom.getKey();
                             }
                         }
