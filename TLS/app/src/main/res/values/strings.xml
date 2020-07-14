@@ -12,4 +12,26 @@
     <!-- FAB labels -->
     <string name="new_person">חייל חדש</string>
     <string name="new_room">חדר חדש</string>
+
+    <!-- Add room form -->
+    <string name="room_name_hint">שם חדר</string>
+    <string name="room_type_hint">שיוך החדר</string>
+    <string name="room_max_capacity">תפוסה מרבית</string>
+    <string name="room_gender_hint">סוג החדר</string>
+
+    <!-- Add person form -->
+    <string name="person_full_name_hint">שם מלא</string>
+    <string name="person_mid_hint">מספר אישי</string>
+    <string name="person_phone_number_hint">מספר טלפון</string>
+    <string name="person_hometown_hint">כתובת מגורים</string>
+    <string name="person_release_date_hint">תאריך שחרור</string>
+    <string name="person_branch_hint">ענף</string>
+    <string name="title_must">חובה</string>
+    <string name="title_sign">קבע</string>
+
+    <string name="add_dialog_accept">הוסף</string>
+    <string name="add_dialog_cancel">בטל</string>
+
+    <string name="make_leader_action">הפוך לאחראי חדר</string>
+    <string name="make_phone_call_action">התקשר</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#0277BD</color>
+    <color name="colorPrimaryDark">#01579B</color>
     <color name="colorAccent">#D81B60</color>
 
     <!-- Color palette -->
@@ -19,6 +19,22 @@
     <color name="GreenA200">#69F0AE</color>
     <color name="GreenA400">#00E676</color>
     <color name="GreenA700">#00C853</color>
+
+    <!-- Light Blue Color Scheme -->
+    <color name="LightBlue50">#E1F5FE</color>
+    <color name="LightBlue100">#B3E5FC</color>
+    <color name="LightBlue200">#81D4FA</color>
+    <color name="LightBlue300">#4FC3F7</color>
+    <color name="LightBlue400">#29B6F6</color>
+    <color name="LightBlue500">#03A9F4</color>
+    <color name="LightBlue600">#039BE5</color>
+    <color name="LightBlue700">#0288D1</color>
+    <color name="LightBlue800">#0277BD</color>
+    <color name="LightBlue900">#01579B</color>
+    <color name="LightBlueA100">#80D8FF</color>
+    <color name="LightBlueA200">#40C4FF</color>
+    <color name="LightBlueA400">#00B0FF</color>
+    <color name="LightBlueA700">#0091EA</color>
 
     <!-- Basic -->
     <color name="white">#FFFFFF</color>
