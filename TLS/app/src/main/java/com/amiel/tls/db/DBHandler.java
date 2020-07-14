@@ -199,19 +199,24 @@ public class DBHandler{
         roomQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tableRef.child(TABLE_PERSONS).orderByChild(ROOM_ID).equalTo(dataSnapshot.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        dataSnapshot.getRef().removeValue();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
                 for(DataSnapshot currSnap : dataSnapshot.getChildren()) {
-                    currSnap.getRef().removeValue();
+                    Room currRoom = currSnap.getValue(Room.class);
+                    if(currRoom.roomGender == toRemove.roomGender && currRoom.roomType == toRemove.roomType) {
+                        tableRef.child(TABLE_PERSONS).orderByChild(ROOM_ID).equalTo(currSnap.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for(DataSnapshot currSnap : dataSnapshot.getChildren()) {
+                                    currSnap.getRef().removeValue();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                        currSnap.getRef().removeValue();
+                    }
                 }
             }
 
