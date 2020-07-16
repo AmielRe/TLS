@@ -16,7 +16,7 @@
             android:layoutAnimation="@anim/layout_animation_fall_down"
             android:divider="@null"
             android:dividerHeight="10dp"
-            android:paddingTop="75dp"
+            android:paddingTop="10dp"
             android:descendantFocusability="blocksDescendants"
             android:focusable="true"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

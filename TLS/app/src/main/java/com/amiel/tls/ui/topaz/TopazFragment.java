@@ -22,7 +22,7 @@ public class TopazFragment extends Fragment {
     private TabAdapter TopazAdapter;
     private TabLayout TopazTabLayout;
     private ViewPager TopazViewPager;
-    
+
     private int[] tabIcons = {
             R.drawable.ic_boy,
             R.drawable.ic_girl

@@ -43,7 +43,7 @@
                 android:ems="10"
                 android:hint="@string/person_mid_hint"
                 android:inputType="number"
-                android:textAlignment="viewStart" />
+                android:textAlignment="viewStart"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -60,7 +60,7 @@
                 android:ems="10"
                 android:hint="@string/person_phone_number_hint"
                 android:inputType="phone"
-                android:textAlignment="viewStart" />
+                android:textAlignment="viewStart"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
