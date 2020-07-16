@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RadioGroup;
@@ -79,6 +81,49 @@ public class MainActivity extends AppCompatActivity {
         final RadioGroup genderRadioGroup = scrollViewLayout.findViewById(R.id.add_room_radio_group_gender);
         final TextInputEditText maxCapacity = scrollViewLayout.findViewById(R.id.add_room_max_capacity);
 
+        roomName.setError("יש לכתוב שם חדר");
+        maxCapacity.setError("יש לכתוב תפוסה מירבית");
+
+        roomName.addTextChangedListener(new TextWatcher()  {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                if (roomName.getText().toString().length() <= 0) {
+                    roomName.setError("יש לכתוב שם חדר");
+                } else {
+                    roomName.setError(null);
+                }
+            }
+        });
+
+        maxCapacity.addTextChangedListener(new TextWatcher()  {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                if (maxCapacity.getText().toString().length() <= 0) {
+                    maxCapacity.setError("יש לכתוב תפוסה מירבית");
+                } else {
+                    maxCapacity.setError(null);
+                }
+            }
+        });
+
         //Finally building an AlertDialog
         final AlertDialog builder = new AlertDialog.Builder(Objects.requireNonNull(this))
                 .setPositiveButton(getResources().getString(R.string.add_dialog_accept), null)
@@ -92,28 +137,31 @@ public class MainActivity extends AppCompatActivity {
         builder.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
+                if(roomName.getError() == null && maxCapacity.getError() == null)
+                {
+                    /*
                    Insert and get data using Database Async way
                  */
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        Room newRoom = new Room();
-                        newRoom.roomName = Objects.requireNonNull(roomName.getText()).toString();
-                        newRoom.currentCapacity = 0;
-                        newRoom.maxCapacity = Integer.parseInt(Objects.requireNonNull(maxCapacity.getText()).toString());
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            Room newRoom = new Room();
+                            newRoom.roomName = Objects.requireNonNull(roomName.getText()).toString();
+                            newRoom.currentCapacity = 0;
+                            newRoom.maxCapacity = Integer.parseInt(Objects.requireNonNull(maxCapacity.getText()).toString());
 
-                        newRoom.roomType = typeRadioGroup.indexOfChild(typeRadioGroup.findViewById(typeRadioGroup.getCheckedRadioButtonId()));
-                        newRoom.roomGender = genderRadioGroup.indexOfChild(genderRadioGroup.findViewById(genderRadioGroup.getCheckedRadioButtonId()));
+                            newRoom.roomType = typeRadioGroup.indexOfChild(typeRadioGroup.findViewById(typeRadioGroup.getCheckedRadioButtonId()));
+                            newRoom.roomGender = genderRadioGroup.indexOfChild(genderRadioGroup.findViewById(genderRadioGroup.getCheckedRadioButtonId()));
 
-                        // Insert Data
-                        DBHandler.addRoom(newRoom);
+                            // Insert Data
+                            DBHandler.addRoom(newRoom);
 
-                        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                        Objects.requireNonNull(fragment).onResume();
-                    }
-                });
-                builder.dismiss();
+                            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                            Objects.requireNonNull(fragment).onResume();
+                        }
+                    });
+                    builder.dismiss();
+                }
             }
         });
     }
@@ -130,6 +178,133 @@ public class MainActivity extends AppCompatActivity {
         final TextInputEditText phoneNumber = scrollViewLayout.findViewById(R.id.add_person_phone_number);
         final TextInputEditText releaseDate = scrollViewLayout.findViewById(R.id.add_person_release_date);
         final AppCompatSpinner roomsSpinner = scrollViewLayout.findViewById(R.id.add_person_room_spinner);
+
+        fullName.setError("יש לכתוב שם מלא");
+        homeTown.setError("יש לכתוב עיר מגורים");
+        branch.setError("יש לכתוב ענף");
+        releaseDate.setError("יש לבחור תאריך שחרור");
+        mid.setError("מספר אישי אינו תקין");
+        phoneNumber.setError("מספר טלפון אינו תקין");
+
+        fullName.addTextChangedListener(new TextWatcher()  {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                if (fullName.getText().toString().length() <= 0) {
+                    fullName.setError("יש לכתוב שם מלא");
+                } else {
+                    fullName.setError(null);
+                }
+            }
+        });
+
+        homeTown.addTextChangedListener(new TextWatcher()  {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                if (homeTown.getText().toString().length() <= 0) {
+                    homeTown.setError("יש לכתוב עיר מגורים");
+                } else {
+                    homeTown.setError(null);
+                }
+            }
+        });
+
+        branch.addTextChangedListener(new TextWatcher()  {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                if (branch.getText().toString().length() <= 0) {
+                    branch.setError("יש לכתוב ענף");
+                } else {
+                    branch.setError(null);
+                }
+            }
+        });
+
+        releaseDate.addTextChangedListener(new TextWatcher()  {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                if (releaseDate.getText().toString().length() <= 0) {
+                    releaseDate.setError("יש לבחור תאריך שחרור");
+                } else {
+                    releaseDate.setError(null);
+                }
+            }
+        });
+
+        mid.addTextChangedListener(new TextWatcher()  {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                if (mid.getText().toString().length() != 7) {
+                    mid.setError("מספר אישי אינו תקין");
+                } else {
+                    mid.setError(null);
+                }
+            }
+        });
+
+        phoneNumber.addTextChangedListener(new TextWatcher()  {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                if (phoneNumber.getText().toString().length() != 10) {
+                    phoneNumber.setError("מספר טלפון אינו תקין");
+                } else {
+                    phoneNumber.setError(null);
+                }
+            }
+        });
 
         DBHandler.getAllAvailableRooms(new DBHandler.OnGetRoomDataListener() {
             @Override
@@ -184,35 +359,39 @@ public class MainActivity extends AppCompatActivity {
         builder.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(phoneNumber.getError() == null && mid.getError() == null
+                && homeTown.getError() == null && branch.getError() == null
+                && fullName.getError() == null && releaseDate.getError() == null) {
                 /*
                    Insert and get data using Database Async way
                  */
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        Person newPerson = new Person();
-                        newPerson.fullName = fullName.getText().toString();
-                        newPerson.MID = mid.getText().toString();
-                        newPerson.homeTown = homeTown.getText().toString();
-                        newPerson.phoneNumber = phoneNumber.getText().toString();
-                        newPerson.branch = branch.getText().toString();
-                        newPerson.releaseDate = releaseDate.getText().toString();
-                        newPerson.roomLeader = false;
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            Person newPerson = new Person();
+                            newPerson.fullName = fullName.getText().toString();
+                            newPerson.MID = mid.getText().toString();
+                            newPerson.homeTown = homeTown.getText().toString();
+                            newPerson.phoneNumber = phoneNumber.getText().toString();
+                            newPerson.branch = branch.getText().toString();
+                            newPerson.releaseDate = releaseDate.getText().toString();
+                            newPerson.roomLeader = false;
 
-                        newPerson.armyPeriod = armyPeriodRadioGroup.indexOfChild(armyPeriodRadioGroup.findViewById(armyPeriodRadioGroup.getCheckedRadioButtonId()));
+                            newPerson.armyPeriod = armyPeriodRadioGroup.indexOfChild(armyPeriodRadioGroup.findViewById(armyPeriodRadioGroup.getCheckedRadioButtonId()));
 
-                        for(Map.Entry<Integer, Room> currRoom : availableRooms.entrySet()){
-                            if(currRoom.getValue().roomName.equals(((Room) roomsSpinner.getSelectedItem()).roomName)
-                            && currRoom.getValue().roomType.equals(((Room) roomsSpinner.getSelectedItem()).roomType)
-                            && currRoom.getValue().roomGender.equals(((Room) roomsSpinner.getSelectedItem()).roomGender)){
-                                newPerson.roomID = currRoom.getKey();
+                            for (Map.Entry<Integer, Room> currRoom : availableRooms.entrySet()) {
+                                if (currRoom.getValue().roomName.equals(((Room) roomsSpinner.getSelectedItem()).roomName)
+                                        && currRoom.getValue().roomType.equals(((Room) roomsSpinner.getSelectedItem()).roomType)
+                                        && currRoom.getValue().roomGender.equals(((Room) roomsSpinner.getSelectedItem()).roomGender)) {
+                                    newPerson.roomID = currRoom.getKey();
+                                }
                             }
-                        }
 
-                        DBHandler.addPerson(newPerson);
-                    }
-                });
-                builder.dismiss();
+                            DBHandler.addPerson(newPerson);
+                        }
+                    });
+                    builder.dismiss();
+                }
             }
         });
     }
@@ -235,5 +414,4 @@ public class MainActivity extends AppCompatActivity {
         //shows DatePickerDialog
         datePickerDialog.show();
     }
-
 }
