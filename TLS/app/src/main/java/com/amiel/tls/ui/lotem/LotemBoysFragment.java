@@ -28,6 +28,7 @@ public class LotemBoysFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_boys_lotem, container, false);
 
         LotemBoysRooms = (ListView) root.findViewById(R.id.lotem_boys_rooms_listView);
+        LotemBoysRooms.setEmptyView(root.findViewById(R.id.lotem_boys_emptyElement));
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.fragment_boys_lotem_swipe_refresh_layout);
 
         updateRooms();
@@ -60,11 +61,6 @@ public class LotemBoysFragment extends Fragment {
             @Override
             public void onSuccess(final Map<Integer, Room> data) {
                 RoomsListAdapter roomsListAdapter = new RoomsListAdapter(getContext(), R.layout.rooms_list_item, data);
-                for(Map.Entry<Integer,Room> currRoom : data.entrySet())
-                {
-                    roomsListAdapter.add(currRoom.getValue());
-                }
-
                 LotemBoysRooms.setAdapter(roomsListAdapter);
             }
 

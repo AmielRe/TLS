@@ -32,6 +32,7 @@ public class RoomsListAdapter extends ArrayAdapter<Room> {
     public RoomsListAdapter(Context context, int textViewResourceId, Map<Integer, Room> rooms) {
         super(context, textViewResourceId);
         this.context = context;
+        this.roomsList.addAll(rooms.values());
         this.rooms = rooms;
     }
 

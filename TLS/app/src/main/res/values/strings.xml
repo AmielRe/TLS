@@ -34,4 +34,7 @@
 
     <string name="make_leader_action">הפוך לאחראי חדר</string>
     <string name="make_phone_call_action">התקשר</string>
+
+    <string name="empty_rooms_list">רשימת חדרים ריקה</string>
+    <string name="empty_persons_list">רשימת חיילים ריקה</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="טופז"
+                android:text="@string/title_topaz"
                 android:layout_gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -69,16 +69,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:gravity="center"
-                android:text="בנים"
+                android:text="@string/title_boys"
                 android:layout_gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         </LinearLayout>
     </LinearLayout>
 
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/room_management_emptyElement"
+        android:text="@string/empty_persons_list"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:visibility="visible"
+        android:textColor="@android:color/darker_gray"
+        android:layout_centerInParent="true"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/activity_room_management_swipe_refresh_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/room_management_header">
         <ListView
             android:id="@+id/room_management_persons_listView"
             android:layout_width="match_parent"
@@ -91,4 +103,4 @@
             android:paddingTop="@dimen/text_margin" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+</RelativeLayout>

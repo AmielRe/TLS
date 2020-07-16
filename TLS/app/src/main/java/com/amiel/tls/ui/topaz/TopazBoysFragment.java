@@ -30,6 +30,7 @@ public class TopazBoysFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_boys_topaz, container, false);
 
         TopazBoysRooms = (ListView) root.findViewById(R.id.topaz_boys_rooms_listView);
+        TopazBoysRooms.setEmptyView(root.findViewById(R.id.topaz_boys_emptyElement));
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.fragment_boys_topaz_swipe_refresh_layout);
 
         updateRooms();
@@ -62,11 +63,6 @@ public class TopazBoysFragment extends Fragment {
             @Override
             public void onSuccess(final Map<Integer, Room> data) {
                 RoomsListAdapter roomsListAdapter = new RoomsListAdapter(getContext(), R.layout.rooms_list_item, data);
-                for(Map.Entry<Integer,Room> currRoom : data.entrySet())
-                {
-                    roomsListAdapter.add(currRoom.getValue());
-                }
-
                 TopazBoysRooms.setAdapter(roomsListAdapter);
             }
 

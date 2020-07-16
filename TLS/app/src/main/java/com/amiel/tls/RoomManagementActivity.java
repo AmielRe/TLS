@@ -32,6 +32,7 @@ public class RoomManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_room_management);
 
         roomPersons = (ListView) findViewById(R.id.room_management_persons_listView);
+        roomPersons.setEmptyView(findViewById(R.id.room_management_emptyElement));
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_room_management_swipe_refresh_layout);
 
