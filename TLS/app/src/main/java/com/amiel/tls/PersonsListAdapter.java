@@ -22,7 +22,10 @@ import androidx.annotation.NonNull;
 
 import com.amiel.tls.db.DBHandler;
 import com.amiel.tls.db.entities.Person;
+import com.google.android.material.button.MaterialButton;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,7 +43,7 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
         TextView personAddress;
         TextView personReleaseDate;
         TextView personBranch;
-        Button removePerson;
+        MaterialButton removePerson;
     }
 
     PersonsListAdapter(Context context, int textViewResourceId) {
@@ -83,7 +86,7 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
             viewHolder.personBranch = (TextView) row.findViewById(R.id.persons_list_item_person_branch);
             viewHolder.personPhone = (TextView) row.findViewById(R.id.persons_list_item_person_phone);
             viewHolder.personReleaseDate = (TextView) row.findViewById(R.id.persons_list_item_person_release_date);
-            viewHolder.removePerson = (Button) row.findViewById(R.id.persons_list_item_person_remove);
+            viewHolder.removePerson = (MaterialButton) row.findViewById(R.id.persons_list_item_person_remove);
 
             viewHolder.removePerson.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -150,6 +153,26 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
                                     callIntent.setData(Uri.parse(String.format("tel:%s",viewHolder.personPhone.getText().toString())));
                                     callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(callIntent);
+                                    break;
+                                case R.id.send_message_action:
+                                    PackageManager pm=context.getPackageManager();
+                                    try {
+                                        String url = "https://api.whatsapp.com/send?phone=" + "972" + viewHolder.personPhone.getText().toString().substring(1);
+                                        Intent waIntent = new Intent(Intent.ACTION_VIEW);
+                                        waIntent.setPackage("com.whatsapp");
+                                        waIntent.setData(Uri.parse(url));
+
+                                        if (waIntent.resolveActivity(pm) != null) {
+                                            context.startActivity(waIntent);
+                                        }
+                                        else {
+                                            throw new PackageManager.NameNotFoundException();
+                                        }
+
+                                    } catch (PackageManager.NameNotFoundException e) {
+                                        Toast.makeText(context, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
                                     break;
                             }
                             return true;

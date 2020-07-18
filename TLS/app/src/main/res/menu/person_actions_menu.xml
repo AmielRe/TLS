@@ -8,4 +8,7 @@
     <item android:id="@+id/make_phone_call_action"
         android:title="@string/make_phone_call_action" />
 
+    <item android:id="@+id/send_message_action"
+        android:title="@string/send_message_action" />
+
 </menu>
