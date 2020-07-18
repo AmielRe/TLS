@@ -121,7 +121,7 @@
             android:paddingBottom="@dimen/text_margin"
             android:checkedButton="@+id/add_person_radio_must">
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/add_person_radio_must"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                 android:layout_weight="1"
                 android:text="@string/title_must" />
 
-            <RadioButton
+            <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/add_person_radio_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

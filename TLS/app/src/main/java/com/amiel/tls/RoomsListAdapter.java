@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.amiel.tls.db.DBHandler;
 import com.amiel.tls.db.entities.Person;
 import com.amiel.tls.db.entities.Room;
+import com.google.android.material.button.MaterialButton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,7 @@ public class RoomsListAdapter extends ArrayAdapter<Room> {
     static class CardViewHolder {
         TextView roomName;
         TextView roomCapacity;
-        Button removeRoom;
+        MaterialButton removeRoom;
     }
 
     public RoomsListAdapter(Context context, int textViewResourceId, Map<Integer, Room> rooms) {
@@ -64,7 +66,7 @@ public class RoomsListAdapter extends ArrayAdapter<Room> {
             viewHolder = new CardViewHolder();
             viewHolder.roomName = (TextView) row.findViewById(R.id.rooms_list_item_room_name);
             viewHolder.roomCapacity = (TextView) row.findViewById(R.id.rooms_list_item_room_capacity);
-            viewHolder.removeRoom = (Button) row.findViewById(R.id.rooms_list_item_room_remove);
+            viewHolder.removeRoom = (MaterialButton) row.findViewById(R.id.rooms_list_item_room_remove);
 
             viewHolder.removeRoom.setOnClickListener(new View.OnClickListener() {
                 @Override

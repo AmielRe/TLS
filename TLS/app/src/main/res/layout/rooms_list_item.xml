@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:layoutDirection="rtl"
@@ -27,7 +27,7 @@
             android:src="@drawable/ic_home_black_24dp"
             android:layout_alignParentEnd="true"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/rooms_list_item_room_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,10 +35,11 @@
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_marginTop="@dimen/text_margin"
-            android:background="@color/colorAccent"
+            app:backgroundTint="@color/colorAccent"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/rooms_list__item_room_image"
-            android:focusable="false"/>
+            android:focusable="false"
+            android:drawableLeft="@android:drawable/ic_menu_delete"/>
 
         <TextView
             android:id="@+id/rooms_list_item_room_name"
