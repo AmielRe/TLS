@@ -28,13 +28,17 @@
     <string name="person_branch_hint">ענף</string>
     <string name="title_must">חובה</string>
     <string name="title_sign">קבע</string>
+    <string name="room_selection">בחר חדר</string>
 
     <string name="add_dialog_accept">הוסף</string>
     <string name="add_dialog_cancel">בטל</string>
 
     <string name="make_leader_action">הפוך לאחראי חדר</string>
     <string name="make_phone_call_action">התקשר</string>
+    <string name="send_message_action">שלח הודעה</string>
 
     <string name="empty_rooms_list">רשימת חדרים ריקה</string>
     <string name="empty_persons_list">רשימת חיילים ריקה</string>
+
+    <string name="main_options_send_message">שלח הודעה לאחראי החדרים</string>
 </resources>

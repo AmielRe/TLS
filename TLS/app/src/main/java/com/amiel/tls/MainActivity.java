@@ -1,15 +1,25 @@
 package com.amiel.tls;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.amiel.tls.db.DBHandler;
 import com.amiel.tls.db.entities.Person;
@@ -24,12 +34,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
@@ -70,6 +84,71 @@ public class MainActivity extends AppCompatActivity {
                 openAddRoomDialog();
             }
         });
+    }
+
+    // create an action bar button
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.option_send_message) {
+            final EditText txtMessage = new EditText(this);
+
+            // Set the default text
+            txtMessage.setHint("הודעה");
+
+            new AlertDialog.Builder(this)
+                    .setTitle("שלח הודעה")
+                    .setMessage("כתוב הודעה שתישלח לכל אחראי החדרים")
+                    .setView(txtMessage)
+                    .setPositiveButton("שלח", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    DBHandler.getAllRoomLeaders(new DBHandler.OnGetPersonDataListener() {
+                                        @Override
+                                        public void onStart() {
+
+                                        }
+
+                                        @Override
+                                        public void onSuccess(Map<Integer, Person> data) {
+                                            if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                                                Toast.makeText(MainActivity.this, "לאפליקציה אין הרשאות לשלוח הודעה", Toast.LENGTH_LONG).show();
+                                            } else {
+                                                for (Map.Entry<Integer, Person> currPerson : data.entrySet()) {
+                                                    SmsManager sm = SmsManager.getDefault();
+                                                    sm.sendTextMessage("972" + currPerson.getValue().phoneNumber.substring(1), null, txtMessage.getText().toString(), null, null);
+                                                }
+                                                Toast.makeText(MainActivity.this, "ההודעה נשלחה בהצלחה!", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailed(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton("בטל", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    })
+                    .show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void openAddRoomDialog()
