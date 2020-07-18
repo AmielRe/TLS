@@ -29,7 +29,7 @@ public class LotemFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_lotem, container, false);
 
         LotemViewPager = (ViewPager) root.findViewById(R.id.viewPager_lotem);
-        LotemTabLayout = (TabLayout) root.findViewById(R.id.tabLayout_lotem);
+        LotemTabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayout_main);
         LotemAdapter = new TabAdapter(getActivity().getSupportFragmentManager());
         LotemAdapter.addFragment(new LotemBoysFragment(), getResources().getString(R.string.title_boys));
         LotemAdapter.addFragment(new LotemGirlsFragment(), getResources().getString(R.string.title_girls));
