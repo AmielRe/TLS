@@ -13,9 +13,12 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_person_edit_name_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:paddingTop="@dimen/text_margin">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -25,14 +28,18 @@
                 android:layout_margin="@dimen/text_margin"
                 android:layout_weight="1"
                 android:ems="10"
+                android:gravity="center"
                 android:hint="@string/person_full_name_hint"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_person_mid_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_person_mid"
@@ -42,14 +49,18 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/person_mid_hint"
+                android:gravity="center"
                 android:inputType="number"
-                android:textAlignment="viewStart"/>
+                android:textAlignment="gravity"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_person_phone_number_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_person_phone_number"
@@ -60,13 +71,17 @@
                 android:ems="10"
                 android:hint="@string/person_phone_number_hint"
                 android:inputType="phone"
-                android:textAlignment="viewStart"/>
+                android:gravity="center"
+                android:textAlignment="gravity"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_person_home_town_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_person_home_town"
@@ -75,14 +90,18 @@
                 android:layout_margin="@dimen/text_margin"
                 android:layout_weight="1"
                 android:ems="10"
+                android:gravity="center"
                 android:hint="@string/person_hometown_hint"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_person_release_date_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_person_release_date"
@@ -91,14 +110,18 @@
                 android:layout_margin="@dimen/text_margin"
                 android:layout_weight="1"
                 android:ems="10"
+                android:gravity="center"
                 android:hint="@string/person_release_date_hint"
                 android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_person_branch_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_person_branch"
@@ -108,6 +131,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/person_branch_hint"
+                android:gravity="center"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -13,9 +13,12 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_room_edit_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:paddingTop="@dimen/text_margin">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -26,6 +29,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/room_name_hint"
+                android:gravity="center"
                 android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,9 +118,12 @@
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_room_max_capacity_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_room_max_capacity"
@@ -126,8 +133,9 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/room_max_capacity"
+                android:gravity="center"
                 android:inputType="number"
-                android:textAlignment="viewStart" />
+                android:textAlignment="gravity" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

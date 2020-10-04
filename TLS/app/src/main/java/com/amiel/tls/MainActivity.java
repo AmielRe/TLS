@@ -28,6 +28,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -160,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
         final RadioGroup genderRadioGroup = scrollViewLayout.findViewById(R.id.add_room_radio_group_gender);
         final TextInputEditText maxCapacity = scrollViewLayout.findViewById(R.id.add_room_max_capacity);
 
+        final TextInputLayout roomNameLayout = scrollViewLayout.findViewById(R.id.add_room_edit_name_layout);
+        final TextInputLayout maxCapacityLayout = scrollViewLayout.findViewById(R.id.add_room_max_capacity_layout);
+
         roomName.setError("יש לכתוב שם חדר");
         maxCapacity.setError("יש לכתוב תפוסה מירבית");
 
@@ -176,9 +180,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s)  {
                 if (roomName.getText().toString().length() <= 0) {
+                    roomNameLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     roomName.setError("יש לכתוב שם חדר");
                 } else {
                     roomName.setError(null);
+                    roomNameLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    roomNameLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
                 }
             }
         });
@@ -196,9 +203,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s)  {
                 if (maxCapacity.getText().toString().length() <= 0) {
+                    maxCapacityLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     maxCapacity.setError("יש לכתוב תפוסה מירבית");
                 } else {
                     maxCapacity.setError(null);
+                    maxCapacityLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    maxCapacityLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
                 }
             }
         });
@@ -240,6 +250,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     builder.dismiss();
+                } else {
+                    Toast.makeText(getApplicationContext(),"נא למלא שדות ריקים",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -257,6 +269,13 @@ public class MainActivity extends AppCompatActivity {
         final TextInputEditText phoneNumber = scrollViewLayout.findViewById(R.id.add_person_phone_number);
         final TextInputEditText releaseDate = scrollViewLayout.findViewById(R.id.add_person_release_date);
         final AppCompatSpinner roomsSpinner = scrollViewLayout.findViewById(R.id.add_person_room_spinner);
+
+        final TextInputLayout fullNameLayout = scrollViewLayout.findViewById(R.id.add_person_edit_name_layout);
+        final TextInputLayout homeTownLayout = scrollViewLayout.findViewById(R.id.add_person_home_town_layout);
+        final TextInputLayout midLayout = scrollViewLayout.findViewById(R.id.add_person_mid_layout);
+        final TextInputLayout branchLayout = scrollViewLayout.findViewById(R.id.add_person_branch_layout);
+        final TextInputLayout phoneNumberLayout = scrollViewLayout.findViewById(R.id.add_person_phone_number_layout);
+        final TextInputLayout releaseDateLayout = scrollViewLayout.findViewById(R.id.add_person_release_date_layout);
 
         fullName.setError("יש לכתוב שם מלא");
         homeTown.setError("יש לכתוב עיר מגורים");
@@ -278,9 +297,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s)  {
                 if (fullName.getText().toString().length() <= 0) {
+                    fullNameLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     fullName.setError("יש לכתוב שם מלא");
                 } else {
                     fullName.setError(null);
+                    fullNameLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    fullNameLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
                 }
             }
         });
@@ -298,9 +320,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s)  {
                 if (homeTown.getText().toString().length() <= 0) {
+                    homeTownLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     homeTown.setError("יש לכתוב עיר מגורים");
                 } else {
                     homeTown.setError(null);
+                    homeTownLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    homeTownLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
                 }
             }
         });
@@ -318,9 +343,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s)  {
                 if (branch.getText().toString().length() <= 0) {
+                    branchLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     branch.setError("יש לכתוב ענף");
                 } else {
                     branch.setError(null);
+                    branchLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    branchLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
                 }
             }
         });
@@ -338,9 +366,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s)  {
                 if (releaseDate.getText().toString().length() <= 0) {
+                    releaseDateLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     releaseDate.setError("יש לבחור תאריך שחרור");
                 } else {
                     releaseDate.setError(null);
+                    releaseDateLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    releaseDateLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
                 }
             }
         });
@@ -358,9 +389,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s)  {
                 if (mid.getText().toString().length() != 7) {
+                    midLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     mid.setError("מספר אישי אינו תקין");
                 } else {
                     mid.setError(null);
+                    midLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    midLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
                 }
             }
         });
@@ -378,9 +412,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s)  {
                 if (phoneNumber.getText().toString().length() != 10) {
+                    phoneNumberLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     phoneNumber.setError("מספר טלפון אינו תקין");
                 } else {
                     phoneNumber.setError(null);
+                    phoneNumberLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    phoneNumberLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
                 }
             }
         });
@@ -470,6 +507,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     builder.dismiss();
+                } else {
+                    Toast.makeText(getApplicationContext(),"נא למלא שדות ריקים",Toast.LENGTH_SHORT).show();
                 }
             }
         });
