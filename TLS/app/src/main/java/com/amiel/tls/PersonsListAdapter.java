@@ -146,7 +146,7 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
                                     break;
                                 case R.id.make_phone_call_action:
                                     if (context.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                        Toast.makeText(context, "לאפליקציה אין הרשאות למצלמה", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(context, "לאפליקציה אין הרשאות להתקשר", Toast.LENGTH_LONG).show();
                                         return true;
                                     }
                                     Intent callIntent = new Intent(Intent.ACTION_CALL);

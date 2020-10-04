@@ -41,4 +41,6 @@
     <string name="empty_persons_list">רשימת חיילים ריקה</string>
 
     <string name="main_options_send_message">שלח הודעה לאחראי החדרים</string>
+    <string name="main_options_send_request_form">שלח טופס הרשמה</string>
+    <string name="main_option_display_all_requests">רשימת המתנה</string>
 </resources>

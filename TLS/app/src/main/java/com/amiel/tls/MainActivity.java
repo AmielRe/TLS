@@ -99,55 +99,106 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.option_send_message) {
-            final EditText txtMessage = new EditText(this);
+        switch(id){
+            case R.id.option_send_message:
+                final EditText txtMessage = new EditText(this);
 
-            // Set the default text
-            txtMessage.setHint("הודעה");
+                // Set the default text
+                txtMessage.setHint("הודעה");
 
-            new AlertDialog.Builder(this)
-                    .setTitle("שלח הודעה")
-                    .setMessage("כתוב הודעה שתישלח לכל אחראי החדרים")
-                    .setView(txtMessage)
-                    .setPositiveButton("שלח", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            AsyncTask.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    DBHandler.getAllRoomLeaders(new DBHandler.OnGetPersonDataListener() {
-                                        @Override
-                                        public void onStart() {
+                new AlertDialog.Builder(this)
+                        .setTitle("שלח הודעה")
+                        .setMessage("כתוב הודעה שתישלח לכל אחראי החדרים")
+                        .setView(txtMessage)
+                        .setPositiveButton("שלח", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                AsyncTask.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        DBHandler.getAllRoomLeaders(new DBHandler.OnGetPersonDataListener() {
+                                            @Override
+                                            public void onStart() {
 
-                                        }
-
-                                        @Override
-                                        public void onSuccess(Map<Integer, Person> data) {
-                                            if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                                Toast.makeText(MainActivity.this, "לאפליקציה אין הרשאות לשלוח הודעה", Toast.LENGTH_LONG).show();
-                                            } else {
-                                                for (Map.Entry<Integer, Person> currPerson : data.entrySet()) {
-                                                    SmsManager sm = SmsManager.getDefault();
-                                                    sm.sendTextMessage("972" + currPerson.getValue().phoneNumber.substring(1), null, txtMessage.getText().toString(), null, null);
-                                                }
-                                                Toast.makeText(MainActivity.this, "ההודעה נשלחה בהצלחה!", Toast.LENGTH_LONG).show();
                                             }
+
+                                            @Override
+                                            public void onSuccess(Map<Integer, Person> data) {
+                                                if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                                                    Toast.makeText(MainActivity.this, "לאפליקציה אין הרשאות לשלוח הודעה", Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    for (Map.Entry<Integer, Person> currPerson : data.entrySet()) {
+                                                        SmsManager sm = SmsManager.getDefault();
+                                                        sm.sendTextMessage("972" + currPerson.getValue().phoneNumber.substring(1), null, txtMessage.getText().toString(), null, null);
+                                                    }
+                                                    Toast.makeText(MainActivity.this, "ההודעה נשלחה בהצלחה!", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailed(DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton(R.string.add_dialog_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        })
+                        .show();
+                break;
+
+            case R.id.option_send_request_form:
+                final EditText phoneNumber = new EditText(this);
+
+                // Set the default text
+                phoneNumber.setHint("מספר טלפון");
+
+                new AlertDialog.Builder(this)
+                        .setTitle("טופס רישום")
+                        .setMessage("הכנס מספר טלפון אליו יישלח טופס הרישום")
+                        .setView(phoneNumber)
+                        .setPositiveButton("שלח", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                AsyncTask.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            String url = String.format("https://api.whatsapp.com/send?phone=972%s&text=%s", phoneNumber.getText().toString().substring(1), "https://forms.gle/mp49Y7KWsn8Ma8Kk6");
+                                            Intent waIntent = new Intent(Intent.ACTION_VIEW);
+                                            waIntent.setPackage("com.whatsapp");
+                                            waIntent.setData(Uri.parse(url));
+
+                                            if (waIntent.resolveActivity(getPackageManager()) != null) {
+                                                startActivity(waIntent);
+                                            }
+                                            else {
+                                                throw new PackageManager.NameNotFoundException();
+                                            }
+
+                                        } catch (PackageManager.NameNotFoundException e) {
+                                            Toast.makeText(getBaseContext(), "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                                                    .show();
                                         }
 
-                                        @Override
-                                        public void onFailed(DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton(R.string.add_dialog_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        })
+                        .show();
+                break;
 
-                                        }
-                                    });
-
-                                }
-                            });
-                        }
-                    })
-                    .setNegativeButton("בטל", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
-                    })
-                    .show();
+            case R.id.option_display_all_requests:
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
