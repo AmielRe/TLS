@@ -28,11 +28,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class PersonsListAdapter extends ArrayAdapter<Person> {
     private List<Person> personsList = new ArrayList<>();
     private Context context;
+    private TextView capacity;
+    private Integer maxCapacity;
 
     static class CardViewHolder {
         TextView personName;
@@ -46,9 +49,11 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
         MaterialButton removePerson;
     }
 
-    PersonsListAdapter(Context context, int textViewResourceId) {
+    PersonsListAdapter(Context context, int textViewResourceId, TextView capacity, Integer maxCapacity) {
         super(context, textViewResourceId);
         this.context = context;
+        this.capacity = capacity;
+        this.maxCapacity = maxCapacity;
     }
 
     @Override
@@ -107,6 +112,7 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
                                     DBHandler.removePerson(toRemove);
                                     personsList.remove(toRemove);
                                     notifyDataSetChanged();
+                                    capacity.setText(String.format(Locale.getDefault(), "%d/%d", personsList.size(), maxCapacity));
                                     dialog.dismiss();
                                 }
                             });
