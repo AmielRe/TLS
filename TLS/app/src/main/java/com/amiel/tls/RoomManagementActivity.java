@@ -24,7 +24,8 @@ public class RoomManagementActivity extends AppCompatActivity {
     private ListView roomPersons;
     private SwipeRefreshLayout swipeRefreshLayout;
     private static Integer roomID;
-    //private static
+    private TextView roomCapacity;
+    private Integer maxCapacity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +38,16 @@ public class RoomManagementActivity extends AppCompatActivity {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_room_management_swipe_refresh_layout);
 
         TextView roomName = (TextView) findViewById(R.id.room_management_column1_room_name);
-        TextView roomCapacity = (TextView) findViewById(R.id.room_management_column1_capacity);
+        roomCapacity = (TextView) findViewById(R.id.room_management_column1_capacity);
         TextView roomType = (TextView) findViewById(R.id.room_management_column2_type);
         TextView roomGender = (TextView) findViewById(R.id.room_management_column2_gender);
 
         Room roomToView = (Room)getIntent().getExtras().getSerializable("room");
+        maxCapacity = roomToView.maxCapacity;
         roomID = getIntent().getExtras().getInt("roomID");
 
         roomName.setText(roomToView.roomName);
-        roomCapacity.setText(String.format("%d/%d", roomToView.currentCapacity, roomToView.maxCapacity));
+        roomCapacity.setText(String.format("%d/%d", roomToView.currentCapacity, maxCapacity));
         roomGender.setText(CommonUtils.intToGender(roomToView.roomGender));
         roomType.setText(CommonUtils.intToRoomType(roomToView.roomType));
 
@@ -70,7 +72,7 @@ public class RoomManagementActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(Map<Integer, Person> data) {
-                PersonsListAdapter personsListAdapter = new PersonsListAdapter(RoomManagementActivity.this, R.layout.persons_list_item);
+                PersonsListAdapter personsListAdapter = new PersonsListAdapter(RoomManagementActivity.this, R.layout.persons_list_item, roomCapacity, maxCapacity);
                 for(Map.Entry<Integer,Person> currPerson : data.entrySet())
                 {
                     personsListAdapter.add(currPerson.getValue());
