@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/waiting_room_header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="start"
+        android:background="@color/LightBlue200"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|center_vertical">
+
+        <TextView
+            android:id="@+id/waiting_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="כמות ממתינים: "
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/waiting_list_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/waiting_list_emptyElement"
+        android:text="@string/empty_waiting_list"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:visibility="visible"
+        android:textColor="@android:color/darker_gray"
+        android:layout_centerInParent="true"/>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/activity_waiting_list_swipe_refresh_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/waiting_room_header">
+        <ListView
+            android:id="@+id/waiting_room_persons_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:layoutAnimation="@anim/layout_animation_fall_down"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:paddingTop="@dimen/text_margin" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

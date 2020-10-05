@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/insert_to_room_action"
+        android:title="@string/insert_to_room_action" />
+
+    <item android:id="@+id/delete_action"
+        android:title="@string/delete_action" />
+
+</menu>
