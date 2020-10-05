@@ -2,17 +2,17 @@ package com.amiel.tls;
 
 public class WaitingListPerson {
 
-    public Integer rowID;
-    public String fullName;
-    public String MID;
-    public String releaseDate;
-    public String branch;
-    public String phoneNumber;
-    public String homeTown;
-    public String armyPeriod;
-    public String gender;
+    Integer rowID;
+    String fullName;
+    String MID;
+    String releaseDate;
+    String branch;
+    String phoneNumber;
+    String homeTown;
+    String armyPeriod;
+    String gender;
 
-    public WaitingListPerson()
+    WaitingListPerson()
     {
 
     }

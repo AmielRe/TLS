@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/navigation_lotem"
         android:name="com.amiel.tls.ui.lotem.LotemFragment"
-        android:label="@string/title_lotem"
+        android:label="@string/lotem"
         tools:layout="@layout/fragment_lotem" />
 
     <fragment
         android:id="@+id/navigation_topaz"
         android:name="com.amiel.tls.ui.topaz.TopazFragment"
-        android:label="@string/title_topaz"
+        android:label="@string/topaz"
         tools:layout="@layout/fragment_topaz" />
 </navigation>

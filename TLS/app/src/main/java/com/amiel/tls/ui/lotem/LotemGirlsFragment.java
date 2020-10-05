@@ -1,19 +1,16 @@
 package com.amiel.tls.ui.lotem;
 
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.amiel.tls.Constants;
 import com.amiel.tls.R;
-import com.amiel.tls.RoomManagementActivity;
 import com.amiel.tls.RoomsListAdapter;
 import com.amiel.tls.db.DBHandler;
 import com.amiel.tls.db.entities.Room;
@@ -55,7 +52,7 @@ public class LotemGirlsFragment extends Fragment {
 
     private void updateRooms()
     {
-        DBHandler.getAllRoomsByFilter(1, 1, new DBHandler.OnGetRoomDataListener() {
+        DBHandler.getAllRoomsByFilter(Constants.GENDER_GIRLS_INT, Constants.GENDER_GIRLS_INT, new DBHandler.OnGetRoomDataListener() {
             @Override
             public void onStart() {
 

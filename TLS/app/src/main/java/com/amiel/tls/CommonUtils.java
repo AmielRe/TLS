@@ -1,26 +1,20 @@
 package com.amiel.tls;
 
+import android.content.Context;
+
 class CommonUtils {
 
-    private static String UNIDENTIFIED = "לא מזוהה";
-    private static String ARMY_PERIOD_MUST = "חובה";
-    private static String ARMY_PERIOD_SIGN = "קבע";
-    private static String GENDER_BOYS = "בנים";
-    private static String GENDER_GIRLS = "בנות";
-    private static String ROOM_TYPE_LOTEM = "לוטם";
-    private static String ROOM_TYPE_TOPAZ = "טופז";
-
-    static String intToArmyPeriod(Integer armyPeriod)
+    static String intToArmyPeriod(Context context, Integer armyPeriod)
     {
-        String returnVal = UNIDENTIFIED;
+        String returnVal = context.getString(R.string.Unidentified);
 
         switch(armyPeriod)
         {
-            case 0:
-                returnVal = ARMY_PERIOD_MUST;
+            case Constants.ARMY_PERIOD_MUST_INT:
+                returnVal = context.getString(R.string.must);
                 break;
-            case 1:
-                returnVal = ARMY_PERIOD_SIGN;
+            case Constants.ARMY_PERIOD_SIGN_INT:
+                returnVal = context.getString(R.string.sign);
                 break;
             default:
                 break;
@@ -29,17 +23,17 @@ class CommonUtils {
         return returnVal;
     }
 
-    static String intToRoomType(Integer roomType)
+    static String intToRoomType(Context context, Integer roomType)
     {
-        String returnVal = UNIDENTIFIED;
+        String returnVal = context.getString(R.string.Unidentified);
 
         switch(roomType)
         {
-            case 0:
-                returnVal = ROOM_TYPE_TOPAZ;
+            case Constants.ROOM_TYPE_TOPAZ_INT:
+                returnVal = context.getString(R.string.topaz);
                 break;
-            case 1:
-                returnVal = ROOM_TYPE_LOTEM;
+            case Constants.ROOM_TYPE_LOTEM_INT:
+                returnVal = context.getString(R.string.lotem);
                 break;
             default:
                 break;
@@ -48,17 +42,17 @@ class CommonUtils {
         return returnVal;
     }
 
-    static String intToGender(Integer gender)
+    static String intToGender(Context context, Integer gender)
     {
-        String returnVal = UNIDENTIFIED;
+        String returnVal = context.getString(R.string.Unidentified);
 
         switch(gender)
         {
-            case 0:
-                returnVal = GENDER_BOYS;
+            case Constants.GENDER_BOYS_INT:
+                returnVal = context.getString(R.string.boys);
                 break;
-            case 1:
-                returnVal = GENDER_GIRLS;
+            case Constants.GENDER_GIRLS_INT:
+                returnVal = context.getString(R.string.girls);
                 break;
             default:
                 break;

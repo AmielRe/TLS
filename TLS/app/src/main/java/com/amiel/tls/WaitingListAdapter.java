@@ -122,10 +122,10 @@ public class WaitingListAdapter extends ArrayAdapter<WaitingListPerson> {
                                             roomsSpinner.setAdapter(customAdapter);
 
                                             new AlertDialog.Builder(context)
-                                                    .setTitle("בחירת חדר")
-                                                    .setMessage("יש לבחור את החדר הפנוי")
+                                                    .setTitle(context.getString(R.string.insert_to_room_title))
+                                                    .setMessage(context.getString(R.string.insert_to_room_message))
                                                     .setView(roomsSpinner)
-                                                    .setPositiveButton("אישור", new DialogInterface.OnClickListener() {
+                                                    .setPositiveButton(context.getString(R.string.accept), new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int whichButton) {
                                                             AsyncTask.execute(new Runnable() {
                                                                 @Override
@@ -138,7 +138,7 @@ public class WaitingListAdapter extends ArrayAdapter<WaitingListPerson> {
                                                                     newPerson.branch = person.branch;
                                                                     newPerson.releaseDate = person.releaseDate;
                                                                     newPerson.roomLeader = false;
-                                                                    newPerson.armyPeriod = person.armyPeriod.equals("חובה") ? 0 : 1;
+                                                                    newPerson.armyPeriod = person.armyPeriod.equals(context.getString(R.string.must)) ? Constants.ARMY_PERIOD_MUST_INT : Constants.ARMY_PERIOD_SIGN_INT;
 
                                                                     for (Map.Entry<Integer, Room> currRoom : availableRooms.entrySet()) {
                                                                         if (currRoom.getValue().roomName.equals(((Room) roomsSpinner.getSelectedItem()).roomName)
@@ -158,10 +158,9 @@ public class WaitingListAdapter extends ArrayAdapter<WaitingListPerson> {
                                                                         }
                                                                     }
 
-                                                                    String spreadsheetId = "1SBopcGXJF2DBxTwMwyJVOnal0M-bWpyReONjcMgjJsE";
-                                                                    String range = String.format("'תגובות לטופס 1'!A%s:I%s", toRemove.rowID, toRemove.rowID);
+                                                                    String range = Constants.REQUESTS_SHEET_NAME + "!A" + toRemove.rowID + ":I" + toRemove.rowID;
                                                                     AsyncClear parkingInfoFetch = new AsyncClear(context, mCredential);
-                                                                    parkingInfoFetch.execute(spreadsheetId, range);
+                                                                    parkingInfoFetch.execute(Constants.REQUESTS_SPREAD_SHEET_ID, range);
 
                                                                     waitingList.remove(toRemove);
 
@@ -176,7 +175,7 @@ public class WaitingListAdapter extends ArrayAdapter<WaitingListPerson> {
                                                             });
                                                         }
                                                     })
-                                                    .setNegativeButton(R.string.add_dialog_cancel, new DialogInterface.OnClickListener() {
+                                                    .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int whichButton) {
                                                         }
                                                     })
@@ -198,10 +197,9 @@ public class WaitingListAdapter extends ArrayAdapter<WaitingListPerson> {
                                         }
                                     }
 
-                                    String spreadsheetId = "1SBopcGXJF2DBxTwMwyJVOnal0M-bWpyReONjcMgjJsE";
-                                    String range = String.format("'תגובות לטופס 1'!A%s:I%s", toRemove.rowID, toRemove.rowID);
+                                    String range = Constants.REQUESTS_SHEET_NAME + "!A" + toRemove.rowID + ":I" + toRemove.rowID;
                                     AsyncClear parkingInfoFetch = new AsyncClear(context, mCredential);
-                                    parkingInfoFetch.execute(spreadsheetId, range);
+                                    parkingInfoFetch.execute(Constants.REQUESTS_SPREAD_SHEET_ID, range);
 
                                     waitingList.remove(toRemove);
 

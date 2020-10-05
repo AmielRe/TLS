@@ -13,7 +13,6 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AsyncFetch extends AsyncTask<String, Void, List<List<Object>>> {
@@ -23,15 +22,11 @@ public class AsyncFetch extends AsyncTask<String, Void, List<List<Object>>> {
     private ProgressDialog dialog;
     private Exception ex;
 
-    public onResponse getOnResponse() {
-        return onResponse;
-    }
-
-    public void setOnResponse(onResponse onResponse) {
+    void setOnResponse(onResponse onResponse) {
         this.onResponse = onResponse;
     }
 
-    private com.google.api.services.sheets.v4.Sheets mService = null;
+    private com.google.api.services.sheets.v4.Sheets mService;
 
     AsyncFetch(Context context, GoogleAccountCredential credential) {
         this.context = context;
@@ -41,7 +36,7 @@ public class AsyncFetch extends AsyncTask<String, Void, List<List<Object>>> {
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         mService = new com.google.api.services.sheets.v4.Sheets.Builder(
                 transport, jsonFactory, credential)
-                .setApplicationName("TLSApp")
+                .setApplicationName(Constants.GOOGLE_SHEET_APP_NAME)
                 .build();
     }
 
@@ -52,7 +47,10 @@ public class AsyncFetch extends AsyncTask<String, Void, List<List<Object>>> {
     @Override
     protected List<List<Object>> doInBackground(String... params) {
         try {
-            return getDataFromApi(params[0], params[1]);
+            String spreadSheetId = params[0];
+            String range = params[1];
+
+            return getDataFromApi(spreadSheetId, range);
         } catch(UserRecoverableAuthIOException e) {
             ex = e;
             return null;
@@ -69,9 +67,7 @@ public class AsyncFetch extends AsyncTask<String, Void, List<List<Object>>> {
         ValueRange response = this.mService.spreadsheets().values()
                 .get(spreadsheetId, range)
                 .execute();
-        List<List<Object>> values = response.getValues();
-
-        return values;
+        return response.getValues();
     }
 
 
@@ -79,7 +75,7 @@ public class AsyncFetch extends AsyncTask<String, Void, List<List<Object>>> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        dialog.setMessage("טוען נתונים...");
+        dialog.setMessage(context.getString(R.string.loading));
         dialog.show();
     }
 
@@ -91,6 +87,6 @@ public class AsyncFetch extends AsyncTask<String, Void, List<List<Object>>> {
     }
 
     public interface onResponse {
-        public void onResponse(List<List<Object>> values, Exception ex);
+        void onResponse(List<List<Object>> values, Exception ex);
     }
 }

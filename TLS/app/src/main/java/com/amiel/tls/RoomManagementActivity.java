@@ -17,9 +17,12 @@ import com.amiel.tls.db.entities.Person;
 import com.amiel.tls.db.entities.Room;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class RoomManagementActivity extends AppCompatActivity {
+    private static final String EXTRA_ROOM_KEY = "room";
+    private static final String EXTRA_ROOM_ID_KEY = "roomID";
 
     private ListView roomPersons;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -42,14 +45,14 @@ public class RoomManagementActivity extends AppCompatActivity {
         TextView roomType = (TextView) findViewById(R.id.room_management_column2_type);
         TextView roomGender = (TextView) findViewById(R.id.room_management_column2_gender);
 
-        Room roomToView = (Room)getIntent().getExtras().getSerializable("room");
+        Room roomToView = (Room)getIntent().getExtras().getSerializable(EXTRA_ROOM_KEY);
         maxCapacity = roomToView.maxCapacity;
-        roomID = getIntent().getExtras().getInt("roomID");
+        roomID = getIntent().getExtras().getInt(EXTRA_ROOM_ID_KEY);
 
         roomName.setText(roomToView.roomName);
-        roomCapacity.setText(String.format("%d/%d", roomToView.currentCapacity, maxCapacity));
-        roomGender.setText(CommonUtils.intToGender(roomToView.roomGender));
-        roomType.setText(CommonUtils.intToRoomType(roomToView.roomType));
+        roomCapacity.setText(String.format(Locale.getDefault(), "%d/%d", roomToView.currentCapacity, maxCapacity));
+        roomGender.setText(CommonUtils.intToGender(this, roomToView.roomGender));
+        roomType.setText(CommonUtils.intToRoomType(this, roomToView.roomType));
 
         updatePersons(roomID);
 

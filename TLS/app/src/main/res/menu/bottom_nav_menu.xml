@@ -4,11 +4,11 @@
     <item
         android:id="@+id/navigation_lotem"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_lotem" />
+        android:title="@string/lotem" />
 
     <item
         android:id="@+id/navigation_topaz"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_topaz" />
+        android:title="@string/topaz" />
 
 </menu>

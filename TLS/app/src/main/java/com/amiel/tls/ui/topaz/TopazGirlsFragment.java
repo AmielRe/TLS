@@ -1,6 +1,5 @@
 package com.amiel.tls.ui.topaz;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.amiel.tls.Constants;
 import com.amiel.tls.R;
 import com.amiel.tls.RoomsListAdapter;
 import com.amiel.tls.db.DBHandler;
@@ -52,7 +52,7 @@ public class TopazGirlsFragment extends Fragment {
 
     private void updateRooms()
     {
-        DBHandler.getAllRoomsByFilter(0, 1, new DBHandler.OnGetRoomDataListener() {
+        DBHandler.getAllRoomsByFilter(Constants.ROOM_TYPE_TOPAZ_INT, Constants.GENDER_GIRLS_INT, new DBHandler.OnGetRoomDataListener() {
             @Override
             public void onStart() {
 

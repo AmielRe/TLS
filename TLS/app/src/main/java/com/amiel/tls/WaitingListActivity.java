@@ -69,11 +69,9 @@ public class WaitingListActivity extends AppCompatActivity implements AsyncFetch
     }
 
     private void updateList() {
-        String spreadsheetId = "1SBopcGXJF2DBxTwMwyJVOnal0M-bWpyReONjcMgjJsE";
-        String range = "'תגובות לטופס 1'!A:I";
         AsyncFetch parkingInfoFetch = new AsyncFetch(this, mCredential);
         parkingInfoFetch.setOnResponse(this);
-        parkingInfoFetch.execute(spreadsheetId, range);
+        parkingInfoFetch.execute(Constants.REQUESTS_SPREAD_SHEET_ID, Constants.REQUESTS_SHEET_NAME + Constants.REQUEST_SHEET_FETCH_RANGE);
     }
 
     @Override

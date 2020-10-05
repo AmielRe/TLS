@@ -103,13 +103,13 @@ public class MainActivity extends AppCompatActivity {
                 final EditText txtMessage = new EditText(this);
 
                 // Set the default text
-                txtMessage.setHint("הודעה");
+                txtMessage.setHint(getString(R.string.send_message_hint));
 
                 new AlertDialog.Builder(this)
-                        .setTitle("שלח הודעה")
-                        .setMessage("כתוב הודעה שתישלח לכל אחראי החדרים")
+                        .setTitle(getString(R.string.send_message_title))
+                        .setMessage(getString(R.string.send_message_message))
                         .setView(txtMessage)
-                        .setPositiveButton("שלח", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.send), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 AsyncTask.execute(new Runnable() {
                                     @Override
@@ -123,13 +123,13 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Map<Integer, Person> data) {
                                                 if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                                    Toast.makeText(MainActivity.this, "לאפליקציה אין הרשאות לשלוח הודעה", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(MainActivity.this, getString(R.string.error_no_send_sms_permissions), Toast.LENGTH_LONG).show();
                                                 } else {
                                                     for (Map.Entry<Integer, Person> currPerson : data.entrySet()) {
                                                         SmsManager sm = SmsManager.getDefault();
-                                                        sm.sendTextMessage("972" + currPerson.getValue().phoneNumber.substring(1), null, txtMessage.getText().toString(), null, null);
+                                                        sm.sendTextMessage(Constants.ISRAEL_LOCALE_PHONE_PREFIX + currPerson.getValue().phoneNumber.substring(1), null, txtMessage.getText().toString(), null, null);
                                                     }
-                                                    Toast.makeText(MainActivity.this, "ההודעה נשלחה בהצלחה!", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(MainActivity.this, getString(R.string.success_sms_sent), Toast.LENGTH_LONG).show();
                                                 }
                                             }
 
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                                 });
                             }
                         })
-                        .setNegativeButton(R.string.add_dialog_cancel, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                             }
                         })
@@ -154,21 +154,22 @@ public class MainActivity extends AppCompatActivity {
                 final EditText phoneNumber = new EditText(this);
 
                 // Set the default text
-                phoneNumber.setHint("מספר טלפון");
+                phoneNumber.setHint(getString(R.string.send_form_phone_number_hint));
 
                 new AlertDialog.Builder(this)
-                        .setTitle("טופס רישום")
-                        .setMessage("הכנס מספר טלפון אליו יישלח טופס הרישום")
+                        .setTitle(getString(R.string.send_form_title))
+                        .setMessage(getString(R.string.send_form_message))
                         .setView(phoneNumber)
-                        .setPositiveButton("שלח", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.send), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 AsyncTask.execute(new Runnable() {
                                     @Override
                                     public void run() {
                                         try {
-                                            String url = String.format("https://api.whatsapp.com/send?phone=972%s&text=%s", phoneNumber.getText().toString().substring(1), "https://forms.gle/mp49Y7KWsn8Ma8Kk6");
+                                            String phoneNumberWithoutPrefix = phoneNumber.getText().toString().substring(1);
+                                            String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX +  phoneNumberWithoutPrefix + Constants.SEND_API_MESSAGE_PARAM + Constants.REQUEST_FORM;
                                             Intent waIntent = new Intent(Intent.ACTION_VIEW);
-                                            waIntent.setPackage("com.whatsapp");
+                                            waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
                                             waIntent.setData(Uri.parse(url));
 
                                             if (waIntent.resolveActivity(getPackageManager()) != null) {
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                                             }
 
                                         } catch (PackageManager.NameNotFoundException e) {
-                                            Toast.makeText(getBaseContext(), "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                                            Toast.makeText(getBaseContext(), getString(R.string.error_whatsapp_not_installed), Toast.LENGTH_SHORT)
                                                     .show();
                                         }
 
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                                 });
                             }
                         })
-                        .setNegativeButton(R.string.add_dialog_cancel, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                             }
                         })
@@ -215,8 +216,8 @@ public class MainActivity extends AppCompatActivity {
         final TextInputLayout roomNameLayout = scrollViewLayout.findViewById(R.id.add_room_edit_name_layout);
         final TextInputLayout maxCapacityLayout = scrollViewLayout.findViewById(R.id.add_room_max_capacity_layout);
 
-        roomName.setError("יש לכתוב שם חדר");
-        maxCapacity.setError("יש לכתוב תפוסה מירבית");
+        roomName.setError(getString(R.string.error_invalid_room_name));
+        maxCapacity.setError(getString(R.string.error_invalid_max_capacity));
 
         roomName.addTextChangedListener(new TextWatcher()  {
 
@@ -232,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s)  {
                 if (roomName.getText().toString().length() <= 0) {
                     roomNameLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                    roomName.setError("יש לכתוב שם חדר");
+                    roomName.setError(getString(R.string.error_invalid_room_name));
                 } else {
                     roomName.setError(null);
                     roomNameLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
@@ -255,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s)  {
                 if (maxCapacity.getText().toString().length() <= 0) {
                     maxCapacityLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                    maxCapacity.setError("יש לכתוב תפוסה מירבית");
+                    maxCapacity.setError(getString(R.string.error_invalid_max_capacity));
                 } else {
                     maxCapacity.setError(null);
                     maxCapacityLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
@@ -266,8 +267,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Finally building an AlertDialog
         final AlertDialog builder = new AlertDialog.Builder(Objects.requireNonNull(this))
-                .setPositiveButton(getResources().getString(R.string.add_dialog_accept), null)
-                .setNegativeButton(getResources().getString(R.string.add_dialog_cancel), null)
+                .setPositiveButton(getString(R.string.insert), null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .setView(scrollViewLayout)
                 .setCancelable(false)
                 .create();
@@ -302,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     builder.dismiss();
                 } else {
-                    Toast.makeText(getApplicationContext(),"נא למלא שדות ריקים",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_fill_missing_fields),Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -328,12 +329,12 @@ public class MainActivity extends AppCompatActivity {
         final TextInputLayout phoneNumberLayout = scrollViewLayout.findViewById(R.id.add_person_phone_number_layout);
         final TextInputLayout releaseDateLayout = scrollViewLayout.findViewById(R.id.add_person_release_date_layout);
 
-        fullName.setError("יש לכתוב שם מלא");
-        homeTown.setError("יש לכתוב עיר מגורים");
-        branch.setError("יש לכתוב ענף");
-        releaseDate.setError("יש לבחור תאריך שחרור");
-        mid.setError("מספר אישי אינו תקין");
-        phoneNumber.setError("מספר טלפון אינו תקין");
+        fullName.setError(getString(R.string.error_invalid_full_name));
+        homeTown.setError(getString(R.string.error_invalid_home_town));
+        branch.setError(getString(R.string.error_invalid_branch));
+        releaseDate.setError(getString(R.string.error_invalid_release_date));
+        mid.setError(getString(R.string.error_invalid_mid));
+        phoneNumber.setError(getString(R.string.error_invalid_phone_number));
 
         fullName.addTextChangedListener(new TextWatcher()  {
 
@@ -349,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s)  {
                 if (fullName.getText().toString().length() <= 0) {
                     fullNameLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                    fullName.setError("יש לכתוב שם מלא");
+                    fullName.setError(getString(R.string.error_invalid_full_name));
                 } else {
                     fullName.setError(null);
                     fullNameLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
@@ -372,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s)  {
                 if (homeTown.getText().toString().length() <= 0) {
                     homeTownLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                    homeTown.setError("יש לכתוב עיר מגורים");
+                    homeTown.setError(getString(R.string.error_invalid_home_town));
                 } else {
                     homeTown.setError(null);
                     homeTownLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
@@ -395,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s)  {
                 if (branch.getText().toString().length() <= 0) {
                     branchLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                    branch.setError("יש לכתוב ענף");
+                    branch.setError(getString(R.string.error_invalid_branch));
                 } else {
                     branch.setError(null);
                     branchLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
@@ -418,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s)  {
                 if (releaseDate.getText().toString().length() <= 0) {
                     releaseDateLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                    releaseDate.setError("יש לבחור תאריך שחרור");
+                    releaseDate.setError(getString(R.string.error_invalid_release_date));
                 } else {
                     releaseDate.setError(null);
                     releaseDateLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
@@ -441,7 +442,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s)  {
                 if (mid.getText().toString().length() != 7) {
                     midLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                    mid.setError("מספר אישי אינו תקין");
+                    mid.setError(getString(R.string.error_invalid_mid));
                 } else {
                     mid.setError(null);
                     midLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
@@ -464,7 +465,7 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s)  {
                 if (phoneNumber.getText().toString().length() != 10) {
                     phoneNumberLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
-                    phoneNumber.setError("מספר טלפון אינו תקין");
+                    phoneNumber.setError(getString(R.string.error_invalid_phone_number));
                 } else {
                     phoneNumber.setError(null);
                     phoneNumberLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
@@ -499,8 +500,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Finally building an AlertDialog
         final AlertDialog builder = new AlertDialog.Builder(Objects.requireNonNull(this))
-                .setPositiveButton(getResources().getString(R.string.add_dialog_accept), null)
-                .setNegativeButton(getResources().getString(R.string.add_dialog_cancel), null)
+                .setPositiveButton(getString(R.string.insert), null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .setView(scrollViewLayout)
                 .setCancelable(false)
                 .create();
@@ -559,7 +560,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     builder.dismiss();
                 } else {
-                    Toast.makeText(getApplicationContext(),"נא למלא שדות ריקים",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_fill_missing_fields),Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -576,7 +577,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 //sets date in EditText
                 // If done picking date
-                String date = changedDay + "/" + (changedMonth+1) + "/" + changedYear;
+                String date = changedDay + Constants.backSlash + (changedMonth+1) + Constants.backSlash + changedYear;
                 picked.setText(date);
             }
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));

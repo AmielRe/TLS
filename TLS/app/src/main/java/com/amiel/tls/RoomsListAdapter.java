@@ -18,9 +18,13 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class RoomsListAdapter extends ArrayAdapter<Room> {
+    private static final String EXTRA_ROOM_KEY = "room";
+    private static final String EXTRA_ROOM_ID_KEY = "roomID";
+
     private List<Room> roomsList = new ArrayList<>();
     private Map<Integer, Room> rooms;
     private Context context;
@@ -72,9 +76,9 @@ public class RoomsListAdapter extends ArrayAdapter<Room> {
                 @Override
                 public void onClick(View v) {
                     AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-                    alertDialog.setTitle("שים לב");
-                    alertDialog.setMessage("האם אתה בטוח שברצונך למחוק שורה זו?");
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "כן",
+                    alertDialog.setTitle(context.getString(R.string.warning_title));
+                    alertDialog.setMessage(context.getString(R.string.warning_message));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getString(R.string.yes),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Room toRemove = new Room();
@@ -90,7 +94,7 @@ public class RoomsListAdapter extends ArrayAdapter<Room> {
                                     dialog.dismiss();
                                 }
                             });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "בטל",
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, context.getString(R.string.no),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -106,7 +110,7 @@ public class RoomsListAdapter extends ArrayAdapter<Room> {
         }
 
         viewHolder.roomName.setText(room.roomName);
-        viewHolder.roomCapacity.setText(String.format("%d/%d", room.currentCapacity, room.maxCapacity));
+        viewHolder.roomCapacity.setText(String.format(Locale.getDefault(), "%d/%d", room.currentCapacity, room.maxCapacity));
 
         row.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +125,7 @@ public class RoomsListAdapter extends ArrayAdapter<Room> {
                     }
                 }
 
-                getContext().startActivity(new Intent(getContext(), RoomManagementActivity.class).putExtra("room", toDisplay).putExtra("roomID", roomID));
+                getContext().startActivity(new Intent(getContext(), RoomManagementActivity.class).putExtra(EXTRA_ROOM_KEY, toDisplay).putExtra(EXTRA_ROOM_ID_KEY, roomID));
             }
         });
         return row;

@@ -35,8 +35,8 @@ public class TopazFragment extends Fragment {
         TopazViewPager = (ViewPager) root.findViewById(R.id.viewPager_topaz);
         TopazTabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayout_main);
         TopazAdapter = new TabAdapter(getActivity().getSupportFragmentManager());
-        TopazAdapter.addFragment(new TopazBoysFragment(), getResources().getString(R.string.title_boys));
-        TopazAdapter.addFragment(new TopazGirlsFragment(), getResources().getString(R.string.title_girls));
+        TopazAdapter.addFragment(new TopazBoysFragment(), getResources().getString(R.string.boys));
+        TopazAdapter.addFragment(new TopazGirlsFragment(), getResources().getString(R.string.girls));
         TopazViewPager.setAdapter(TopazAdapter);
         TopazTabLayout.setupWithViewPager(TopazViewPager);
 

@@ -97,9 +97,9 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
                 @Override
                 public void onClick(View v) {
                     AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-                    alertDialog.setTitle("שים לב");
-                    alertDialog.setMessage("האם אתה בטוח שברצונך למחוק שורה זו?");
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "כן",
+                    alertDialog.setTitle(context.getString(R.string.warning_title));
+                    alertDialog.setMessage(context.getString(R.string.warning_message));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getString(R.string.yes),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Person toRemove = new Person();
@@ -116,7 +116,7 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
                                     dialog.dismiss();
                                 }
                             });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "בטל",
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, context.getString(R.string.no),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -152,20 +152,21 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
                                     break;
                                 case R.id.make_phone_call_action:
                                     if (context.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                        Toast.makeText(context, "לאפליקציה אין הרשאות להתקשר", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(context, context.getString(R.string.error_no_call_permissions), Toast.LENGTH_LONG).show();
                                         return true;
                                     }
                                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                    callIntent.setData(Uri.parse(String.format("tel:%s",viewHolder.personPhone.getText().toString())));
+                                    callIntent.setData(Uri.parse(Constants.CALL_PHONE_NUMBER_PREFIX + viewHolder.personPhone.getText().toString()));
                                     callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(callIntent);
                                     break;
                                 case R.id.send_message_action:
                                     PackageManager pm=context.getPackageManager();
                                     try {
-                                        String url = "https://api.whatsapp.com/send?phone=" + "972" + viewHolder.personPhone.getText().toString().substring(1);
+                                        String phoneNumberWithoutPrefix = viewHolder.personPhone.getText().toString().substring(1);
+                                        String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX + phoneNumberWithoutPrefix;
                                         Intent waIntent = new Intent(Intent.ACTION_VIEW);
-                                        waIntent.setPackage("com.whatsapp");
+                                        waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
                                         waIntent.setData(Uri.parse(url));
 
                                         if (waIntent.resolveActivity(pm) != null) {
@@ -176,7 +177,7 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
                                         }
 
                                     } catch (PackageManager.NameNotFoundException e) {
-                                        Toast.makeText(context, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                                        Toast.makeText(context, context.getString(R.string.error_whatsapp_not_installed), Toast.LENGTH_SHORT)
                                                 .show();
                                     }
                                     break;
@@ -200,7 +201,7 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
         viewHolder.personBranch.setText(person.branch);
         viewHolder.personMID.setText(person.MID);
         viewHolder.personAddress.setText(person.homeTown);
-        viewHolder.personArmyPeriod.setText(CommonUtils.intToArmyPeriod(person.armyPeriod));
+        viewHolder.personArmyPeriod.setText(CommonUtils.intToArmyPeriod(context, person.armyPeriod));
 
         if(person.roomLeader) {
             viewHolder.personLeader.setVisibility(View.VISIBLE);

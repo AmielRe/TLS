@@ -64,14 +64,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/text_margin"
                 android:layout_weight="1"
-                android:text="@string/title_topaz" />
+                android:text="@string/topaz" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/add_room_radio_lotem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/title_lotem" />
+                android:text="@string/lotem" />
 
         </RadioGroup>
 
@@ -106,14 +106,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/text_margin"
                 android:layout_weight="1"
-                android:text="@string/title_boys" />
+                android:text="@string/boys" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/add_room_radio_girl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/title_girls" />
+                android:text="@string/girls" />
 
         </RadioGroup>
 

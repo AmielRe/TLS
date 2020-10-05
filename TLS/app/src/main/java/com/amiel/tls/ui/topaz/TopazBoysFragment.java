@@ -13,6 +13,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.amiel.tls.Constants;
 import com.amiel.tls.R;
 import com.amiel.tls.RoomManagementActivity;
 import com.amiel.tls.RoomsListAdapter;
@@ -56,7 +57,7 @@ public class TopazBoysFragment extends Fragment {
 
     private void updateRooms()
     {
-        DBHandler.getAllRoomsByFilter(0, 0, new DBHandler.OnGetRoomDataListener() {
+        DBHandler.getAllRoomsByFilter(Constants.ROOM_TYPE_TOPAZ_INT, Constants.GENDER_BOYS_INT, new DBHandler.OnGetRoomDataListener() {
             @Override
             public void onStart() {
 

@@ -151,14 +151,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/text_margin"
                 android:layout_weight="1"
-                android:text="@string/title_must" />
+                android:text="@string/must" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/add_person_radio_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/title_sign" />
+                android:text="@string/sign" />
 
         </RadioGroup>
 

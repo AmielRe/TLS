@@ -1,13 +1,15 @@
 <resources>
     <string name="app_name">TLS</string>
 
+    <string name="Unidentified">לא מזוהה</string>
+
     <!-- Areas -->
-    <string name="title_lotem">לוטם</string>
-    <string name="title_topaz">טופז</string>
+    <string name="lotem">לוטם</string>
+    <string name="topaz">טופז</string>
 
     <!-- Gender -->
-    <string name="title_boys">בנים</string>
-    <string name="title_girls">בנות</string>
+    <string name="boys">בנים</string>
+    <string name="girls">בנות</string>
 
     <!-- FAB labels -->
     <string name="new_person">חייל חדש</string>
@@ -26,12 +28,14 @@
     <string name="person_hometown_hint">כתובת מגורים</string>
     <string name="person_release_date_hint">תאריך שחרור</string>
     <string name="person_branch_hint">ענף</string>
-    <string name="title_must">חובה</string>
-    <string name="title_sign">קבע</string>
+    <string name="must">חובה</string>
+    <string name="sign">קבע</string>
     <string name="room_selection">בחר חדר</string>
 
-    <string name="add_dialog_accept">הוסף</string>
-    <string name="add_dialog_cancel">בטל</string>
+    <string name="insert">הוסף</string>
+    <string name="cancel">בטל</string>
+    <string name="send">שלח</string>
+    <string name="accept">אישור</string>
 
     <string name="make_leader_action">הפוך לאחראי חדר</string>
     <string name="make_phone_call_action">התקשר</string>
@@ -48,7 +52,39 @@
     <string name="main_options_send_request_form">שלח טופס הרשמה</string>
     <string name="main_option_display_all_requests">רשימת המתנה</string>
 
+    <string name="error_fill_missing_fields">נא למלא שדות חסרים</string>
     <string name="error_message_internet_connection">אין חיבור אינטרנט זמין</string>
     <string name="error_message_google_account_access">האפליקציה צריכה לגשת לחשבון הגוגל שלך</string>
     <string name="error_message_google_play_services">האפליקציה דורשת שירותי גוגל. יש להתקין ולנסות שוב</string>
+    <string name="error_invalid_full_name">יש לכתוב שם מלא</string>
+    <string name="error_invalid_home_town">יש לכתוב עיר מגורים</string>
+    <string name="error_invalid_branch">יש לכתוב ענף</string>
+    <string name="error_invalid_release_date">יש לבחור תאריך שחרור</string>
+    <string name="error_invalid_mid">מספר אישי אינו תקין</string>
+    <string name="error_invalid_phone_number">מספר טלפון אינו תקין</string>
+    <string name="error_invalid_room_name">יש לכתוב שם חדר</string>
+    <string name="error_invalid_max_capacity">יש לכתוב תפוסה מירבית</string>
+    <string name="error_whatsapp_not_installed">Whatsapp אינו מותקן</string>
+    <string name="error_no_send_sms_permissions">לאפליקציה אין הרשאות לשלוח הודעה</string>
+    <string name="error_no_call_permissions">לאפליקציה אין הרשאות להתקשר</string>
+
+    <string name="success_sms_sent">ההודעה נשלחה בהצלחה!</string>
+
+    <string name="send_form_phone_number_hint">מספר טלפון</string>
+    <string name="send_form_title">טופס רישום</string>
+    <string name="send_form_message">הכנס מספר טלפון אליו יישלח טופס הרישום</string>
+
+    <string name="send_message_hint">הודעה</string>
+    <string name="send_message_title">שלח הודעה</string>
+    <string name="send_message_message">כתוב הודעה שתישלח לכל אחראי החדרים</string>
+
+    <string name="insert_to_room_title">בחירת חדר</string>
+    <string name="insert_to_room_message">יש לבחור את החדר הפנוי</string>
+
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
+    <string name="warning_title">שים לב</string>
+    <string name="warning_message">האם אתה בטוח שברצונך למחוק שורה זו?</string>
+    <string name="loading">טוען נתונים...</string>
+
 </resources>
