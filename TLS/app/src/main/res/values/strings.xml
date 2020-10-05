@@ -37,10 +37,18 @@
     <string name="make_phone_call_action">התקשר</string>
     <string name="send_message_action">שלח הודעה</string>
 
+    <string name="insert_to_room_action">הכנס לחדר</string>
+    <string name="delete_action">מחק</string>
+
     <string name="empty_rooms_list">רשימת חדרים ריקה</string>
     <string name="empty_persons_list">רשימת חיילים ריקה</string>
+    <string name="empty_waiting_list">רשימת המתנה ריקה</string>
 
     <string name="main_options_send_message">שלח הודעה לאחראי החדרים</string>
     <string name="main_options_send_request_form">שלח טופס הרשמה</string>
     <string name="main_option_display_all_requests">רשימת המתנה</string>
+
+    <string name="error_message_internet_connection">אין חיבור אינטרנט זמין</string>
+    <string name="error_message_google_account_access">האפליקציה צריכה לגשת לחשבון הגוגל שלך</string>
+    <string name="error_message_google_play_services">האפליקציה דורשת שירותי גוגל. יש להתקין ולנסות שוב</string>
 </resources>
