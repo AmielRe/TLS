@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:descendantFocusability="beforeDescendants"
+    android:layoutDirection="rtl">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingRight="15dp"
+        android:background="@drawable/card_background_selector"
+        android:descendantFocusability="afterDescendants"
+        android:layoutDirection="rtl">
+
+        <TextView
+            android:id="@+id/waiting_list_item_person_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Person Name"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/waiting_list_item_person_mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MID"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/waiting_list_item_person_name"
+            android:paddingTop="@dimen/text_margin"/>
+
+        <TextView
+            android:id="@+id/waiting_list_item_person_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/waiting_list_item_person_mid"
+            android:paddingTop="@dimen/text_margin"/>
+
+        <TextView
+            android:id="@+id/waiting_list_item_person_army_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Army Period"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/waiting_list_item_person_phone"
+            android:paddingTop="@dimen/text_margin"/>
+
+        <TextView
+            android:id="@+id/waiting_list_item_person_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/waiting_list_item_person_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Release Date"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/waiting_list_item_person_address"
+            android:paddingTop="@dimen/text_margin"/>
+
+        <TextView
+            android:id="@+id/waiting_list_item_person_branch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Branch"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/waiting_list_item_person_release_date"
+            android:paddingTop="@dimen/text_margin"/>
+
+        <TextView
+            android:id="@+id/waiting_list_item_person_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/waiting_list_item_person_branch"
+            android:paddingTop="@dimen/text_margin"/>
+
+    </RelativeLayout>
+</FrameLayout>
