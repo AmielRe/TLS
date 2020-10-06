@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/complete_action"
+        android:title="@string/complete_action" />
+
+    <item android:id="@+id/send_to_action"
+        android:title="@string/send_to_action" />
+
+    <item android:id="@+id/delete_action"
+        android:title="@string/delete_action" />
+
+</menu>

@@ -8,7 +8,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/option_send_request_form"
+        android:id="@+id/option_send_form"
         android:orderInCategory="200"
         android:title="@string/main_options_send_request_form"
         app:showAsAction="never" />
@@ -17,5 +17,11 @@
         android:id="@+id/option_display_all_requests"
         android:orderInCategory="300"
         android:title="@string/main_option_display_all_requests"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/option_display_all_faults"
+        android:orderInCategory="400"
+        android:title="@string/main_option_display_all_faults"
         app:showAsAction="never" />
 </menu>
