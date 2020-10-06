@@ -36,6 +36,8 @@
     <color name="LightBlueA400">#00B0FF</color>
     <color name="LightBlueA700">#0091EA</color>
 
+    <color name="appImageColor">#0975b1</color>
+
     <!-- Basic -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
