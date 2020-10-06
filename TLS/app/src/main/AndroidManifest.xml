@@ -37,6 +37,11 @@
             android:theme="@style/AppTheme">
         </activity>
 
+        <activity
+            android:name=".FaultListActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+
     </application>
 
 </manifest>
