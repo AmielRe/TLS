@@ -166,6 +166,7 @@
             android:id="@+id/add_person_room_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@android:style/Theme.Holo.Light"
             android:layout_weight="1" />
 
     </LinearLayout>

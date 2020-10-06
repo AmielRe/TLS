@@ -69,9 +69,9 @@ public class WaitingListActivity extends AppCompatActivity implements AsyncFetch
     }
 
     private void updateList() {
-        AsyncFetch parkingInfoFetch = new AsyncFetch(this, mCredential);
-        parkingInfoFetch.setOnResponse(this);
-        parkingInfoFetch.execute(Constants.REQUESTS_SPREAD_SHEET_ID, Constants.REQUESTS_SHEET_NAME + Constants.REQUEST_SHEET_FETCH_RANGE);
+        AsyncFetch requestsInfoFetch = new AsyncFetch(this, mCredential);
+        requestsInfoFetch.setOnResponse(this);
+        requestsInfoFetch.execute(Constants.REQUESTS_SPREAD_SHEET_ID, Constants.REQUESTS_SHEET_NAME + Constants.REQUEST_SHEET_FETCH_RANGE);
     }
 
     @Override

@@ -16,14 +16,14 @@
             android:id="@+id/waiting_list_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="כמות ממתינים: "
+            android:text="@string/waiting_list_count"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:id="@+id/waiting_list_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
+            android:text="@string/zero"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </LinearLayout>
 

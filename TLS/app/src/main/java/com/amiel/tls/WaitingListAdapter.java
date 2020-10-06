@@ -159,8 +159,8 @@ public class WaitingListAdapter extends ArrayAdapter<WaitingListPerson> {
                                                                     }
 
                                                                     String range = Constants.REQUESTS_SHEET_NAME + "!A" + toRemove.rowID + ":I" + toRemove.rowID;
-                                                                    AsyncClear parkingInfoFetch = new AsyncClear(context, mCredential);
-                                                                    parkingInfoFetch.execute(Constants.REQUESTS_SPREAD_SHEET_ID, range);
+                                                                    AsyncClear requestsInfoClear = new AsyncClear(context, mCredential);
+                                                                    requestsInfoClear.execute(Constants.REQUESTS_SPREAD_SHEET_ID, range);
 
                                                                     waitingList.remove(toRemove);
 
@@ -198,8 +198,8 @@ public class WaitingListAdapter extends ArrayAdapter<WaitingListPerson> {
                                     }
 
                                     String range = Constants.REQUESTS_SHEET_NAME + "!A" + toRemove.rowID + ":I" + toRemove.rowID;
-                                    AsyncClear parkingInfoFetch = new AsyncClear(context, mCredential);
-                                    parkingInfoFetch.execute(Constants.REQUESTS_SPREAD_SHEET_ID, range);
+                                    AsyncClear requestsInfoClear = new AsyncClear(context, mCredential);
+                                    requestsInfoClear.execute(Constants.REQUESTS_SPREAD_SHEET_ID, range);
 
                                     waitingList.remove(toRemove);
 
