@@ -1,5 +1,6 @@
 package com.amiel.tls.ui.topaz;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +23,11 @@ public class TopazGirlsFragment extends Fragment {
 
     private ListView TopazGirlsRooms;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        context = container.getContext();
         View root = inflater.inflate(R.layout.fragment_girls_topaz, container, false);
 
         TopazGirlsRooms = (ListView) root.findViewById(R.id.topaz_girls_rooms_listView);
@@ -46,6 +49,7 @@ public class TopazGirlsFragment extends Fragment {
 
     @Override
     public void onResume() {
+        context = getActivity();
         updateRooms();
         super.onResume();
     }
@@ -60,7 +64,7 @@ public class TopazGirlsFragment extends Fragment {
 
             @Override
             public void onSuccess(final Map<Integer, Room> data) {
-                RoomsListAdapter roomsListAdapter = new RoomsListAdapter(getContext(), R.layout.rooms_list_item, data);
+                RoomsListAdapter roomsListAdapter = new RoomsListAdapter(context, R.layout.rooms_list_item, data);
                 TopazGirlsRooms.setAdapter(roomsListAdapter);
             }
 

@@ -1,5 +1,6 @@
 package com.amiel.tls.ui.lotem;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,12 @@ public class LotemBoysFragment extends Fragment {
 
     private ListView LotemBoysRooms;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        context = container.getContext();
         View root = inflater.inflate(R.layout.fragment_boys_lotem, container, false);
 
         LotemBoysRooms = (ListView) root.findViewById(R.id.lotem_boys_rooms_listView);
@@ -47,6 +50,7 @@ public class LotemBoysFragment extends Fragment {
 
     @Override
     public void onResume() {
+        context = getActivity();
         updateRooms();
         super.onResume();
     }
@@ -61,7 +65,7 @@ public class LotemBoysFragment extends Fragment {
 
             @Override
             public void onSuccess(final Map<Integer, Room> data) {
-                RoomsListAdapter roomsListAdapter = new RoomsListAdapter(getContext(), R.layout.rooms_list_item, data);
+                RoomsListAdapter roomsListAdapter = new RoomsListAdapter(context, R.layout.rooms_list_item, data);
                 LotemBoysRooms.setAdapter(roomsListAdapter);
             }
 
