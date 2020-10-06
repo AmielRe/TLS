@@ -6,12 +6,15 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +29,7 @@ import com.amiel.tls.db.entities.Room;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
@@ -46,11 +50,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.amiel.tls.Constants.REQUEST_PICK_CONTACT;
+
 public class MainActivity extends AppCompatActivity {
 
     FloatingActionMenu mainFAB;
     FloatingActionButton addRoomFAB, addPersonFAB;
     private final Map<Integer, Room> availableRooms = new HashMap<>();
+    private TextInputEditText selectedPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,24 +157,37 @@ public class MainActivity extends AppCompatActivity {
                         .show();
                 break;
 
-            case R.id.option_send_request_form:
-                final EditText phoneNumber = new EditText(this);
+            case R.id.option_send_form:
 
                 // Set the default text
-                phoneNumber.setHint(getString(R.string.send_form_phone_number_hint));
+                View dialogView = getLayoutInflater().inflate(R.layout.send_form_dialog, null);
+                final AppCompatSpinner formTypeSpinner = (AppCompatSpinner) dialogView.findViewById(R.id.send_form_type_spinner);
+                selectedPhoneNumber = (TextInputEditText) dialogView.findViewById(R.id.send_form_phone_number_edittext);
+                final MaterialButton chooseContact = (MaterialButton) dialogView.findViewById(R.id.send_form_pick_contact_button);
+                chooseContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pickContact(v);
+                    }
+                });
 
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.send_form_title))
                         .setMessage(getString(R.string.send_form_message))
-                        .setView(phoneNumber)
+                        .setView(dialogView)
                         .setPositiveButton(getString(R.string.send), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 AsyncTask.execute(new Runnable() {
                                     @Override
                                     public void run() {
                                         try {
-                                            String phoneNumberWithoutPrefix = phoneNumber.getText().toString().substring(1);
-                                            String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX +  phoneNumberWithoutPrefix + Constants.SEND_API_MESSAGE_PARAM + Constants.REQUEST_FORM;
+                                            String formToAdd = Constants.REQUEST_FORM;
+                                            if(formTypeSpinner.getSelectedItemPosition() == 1) {
+                                                formToAdd = Constants.FAULT_FORM;
+                                            }
+
+                                            String phoneNumberWithoutPrefix = selectedPhoneNumber.getText().toString().substring(1);
+                                            String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX +  phoneNumberWithoutPrefix + Constants.SEND_API_MESSAGE_PARAM + formToAdd;
                                             Intent waIntent = new Intent(Intent.ACTION_VIEW);
                                             waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
                                             waIntent.setData(Uri.parse(url));
@@ -198,6 +218,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.option_display_all_requests:
                 startActivity(new Intent(this, WaitingListActivity.class));
                 break;
+
+            case R.id.option_display_all_faults:
+                startActivity(new Intent(this, FaultListActivity.class));
+                break;
+
             default:
                 break;
         }
@@ -583,5 +608,52 @@ public class MainActivity extends AppCompatActivity {
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         //shows DatePickerDialog
         datePickerDialog.show();
+    }
+
+    public void pickContact(View v)
+    {
+        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        startActivityForResult(contactPickerIntent, REQUEST_PICK_CONTACT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check whether the result is ok
+        if (resultCode == RESULT_OK) {
+            // Check for the request code, we might be usign multiple startActivityForReslut
+            switch (requestCode) {
+                case REQUEST_PICK_CONTACT:
+                    contactPicked(data);
+                    break;
+            }
+        } else {
+            Log.e("ContactView", "Failed to pick contact");
+        }
+    }
+
+    /**
+     * Query the Uri and read contact details. Handle the picked contact data.
+     * @param data
+     */
+    private void contactPicked(Intent data) {
+        Cursor cursor = null;
+        try {
+            String phoneNo = null ;
+            // getData() method will have the Content Uri of the selected contact
+            Uri uri = data.getData();
+            //Query the content uri
+            cursor = getContentResolver().query(uri, null, null, null, null);
+            cursor.moveToFirst();
+            // column index of the phone number
+            int  phoneIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            // column index of the contact name
+            phoneNo = cursor.getString(phoneIndex);
+            // Set the value to the text view
+            selectedPhoneNumber.setText(phoneNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -7,15 +7,20 @@ public class Constants {
     static final String PREF_ACCOUNT_NAME = "accountName";
     static final String GOOGLE_SHEET_APP_NAME = "TLSApp";
 
+    static final String REQUEST_FORM = "https://forms.gle/mp49Y7KWsn8Ma8Kk6";
     static final String REQUESTS_SPREAD_SHEET_ID = "1SBopcGXJF2DBxTwMwyJVOnal0M-bWpyReONjcMgjJsE";
     static final String REQUESTS_SHEET_NAME = "'תגובות לטופס 1'";
     static final String REQUEST_SHEET_FETCH_RANGE = "!A:I";
+
+    static final String FAULT_FORM = "https://forms.gle/ynf6aSbeKy24DuZo7";
+    static final String FAULTS_SPREAD_SHEET_ID = "1-Vqb39NRCQyK6aHl1_9vosUYNrZDq0hUm1DaGwz_34k";
+    static final String FAULTS_SHEET_NAME = "'תגובות לטופס 1'";
+    static final String FAULTS_SHEET_FETCH_RANGE = "!A:I";
 
     static final String backSlash = "/";
 
     // Whatsapp Consts
     static final String WHATSAPP_PACKAGE = "com.whatsapp";
-    static final String REQUEST_FORM = "https://forms.gle/mp49Y7KWsn8Ma8Kk6";
     static final String ISRAEL_LOCALE_PHONE_PREFIX = "972";
     static final String SEND_API_PREFIX = "https://api.whatsapp.com/send";
     static final String SEND_API_PHONE_PARAM = "?phone=";
@@ -47,4 +52,6 @@ public class Constants {
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    static final int REQUEST_PICK_CONTACT = 85;
+    static final int REQUEST_PICK_CONTACT_ADAPTER = 86;
 }
