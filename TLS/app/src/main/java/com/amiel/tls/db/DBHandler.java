@@ -358,6 +358,32 @@ public class DBHandler{
         );
     }
 
+    public static void getLeaderInRoom(final Integer roomID, final OnGetPersonDataListener listener)
+    {
+        listener.onStart();
+        rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child(TABLE_PERSONS).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Map<Integer, Person> persons = new HashMap<>();
+                        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                            Person currPerson = ds.getValue(Person.class);
+                            if(currPerson.roomID == roomID && currPerson.roomLeader) {
+                                persons.put(Integer.parseInt(ds.getKey()), currPerson);
+                            }
+                        }
+                        listener.onSuccess(persons);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        listener.onFailed(databaseError);
+                    }
+                }
+        );
+    }
+
     public static void getAllPersonsInRoom(final Integer roomID, final OnGetPersonDataListener listener)
     {
         listener.onStart();
