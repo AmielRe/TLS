@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Form types -->
+    <string-array name="formTypesSpinner">
+        <item>טופס רישום</item>
+        <item>טופס תקלה</item>
+    </string-array>
+</resources>
