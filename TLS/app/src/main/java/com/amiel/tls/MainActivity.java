@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                                                 formToAdd = Constants.FAULT_FORM;
                                             }
 
-                                            String phoneNumberWithoutPrefix = selectedPhoneNumber.getText().toString().substring(1);
+                                            String phoneNumberWithoutPrefix = Objects.requireNonNull(selectedPhoneNumber.getText()).toString().substring(1);
                                             String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX +  phoneNumberWithoutPrefix + Constants.SEND_API_MESSAGE_PARAM + formToAdd;
                                             Intent waIntent = new Intent(Intent.ACTION_VIEW);
                                             waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s)  {
-                if (roomName.getText().toString().length() <= 0) {
+                if (Objects.requireNonNull(roomName.getText()).toString().length() <= 0) {
                     roomNameLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     roomName.setError(getString(R.string.error_invalid_room_name));
                 } else {
@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s)  {
-                if (maxCapacity.getText().toString().length() <= 0) {
+                if (Objects.requireNonNull(maxCapacity.getText()).toString().length() <= 0) {
                     maxCapacityLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     maxCapacity.setError(getString(R.string.error_invalid_max_capacity));
                 } else {
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Finally building an AlertDialog
-        final AlertDialog builder = new AlertDialog.Builder(Objects.requireNonNull(this))
+        final AlertDialog builder = new AlertDialog.Builder(this)
                 .setPositiveButton(getString(R.string.insert), null)
                 .setNegativeButton(getString(R.string.cancel), null)
                 .setView(scrollViewLayout)
@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s)  {
-                if (fullName.getText().toString().length() <= 0) {
+                if (Objects.requireNonNull(fullName.getText()).toString().length() <= 0) {
                     fullNameLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     fullName.setError(getString(R.string.error_invalid_full_name));
                 } else {
@@ -393,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s)  {
-                if (homeTown.getText().toString().length() <= 0) {
+                if (Objects.requireNonNull(homeTown.getText()).toString().length() <= 0) {
                     homeTownLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     homeTown.setError(getString(R.string.error_invalid_home_town));
                 } else {
@@ -416,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s)  {
-                if (branch.getText().toString().length() <= 0) {
+                if (Objects.requireNonNull(branch.getText()).toString().length() <= 0) {
                     branchLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     branch.setError(getString(R.string.error_invalid_branch));
                 } else {
@@ -439,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s)  {
-                if (releaseDate.getText().toString().length() <= 0) {
+                if (Objects.requireNonNull(releaseDate.getText()).toString().length() <= 0) {
                     releaseDateLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     releaseDate.setError(getString(R.string.error_invalid_release_date));
                 } else {
@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s)  {
-                if (mid.getText().toString().length() != 7) {
+                if (Objects.requireNonNull(mid.getText()).toString().length() != 7) {
                     midLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     mid.setError(getString(R.string.error_invalid_mid));
                 } else {
@@ -485,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s)  {
-                if (phoneNumber.getText().toString().length() != 10) {
+                if (Objects.requireNonNull(phoneNumber.getText()).toString().length() != 10) {
                     phoneNumberLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     phoneNumber.setError(getString(R.string.error_invalid_phone_number));
                 } else {
@@ -521,7 +521,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Finally building an AlertDialog
-        final AlertDialog builder = new AlertDialog.Builder(Objects.requireNonNull(this))
+        final AlertDialog builder = new AlertDialog.Builder(this)
                 .setPositiveButton(getString(R.string.insert), null)
                 .setNegativeButton(getString(R.string.cancel), null)
                 .setView(scrollViewLayout)
@@ -559,12 +559,12 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Person newPerson = new Person();
-                            newPerson.fullName = fullName.getText().toString();
-                            newPerson.MID = mid.getText().toString();
-                            newPerson.homeTown = homeTown.getText().toString();
-                            newPerson.phoneNumber = phoneNumber.getText().toString();
-                            newPerson.branch = branch.getText().toString();
-                            newPerson.releaseDate = releaseDate.getText().toString();
+                            newPerson.fullName = Objects.requireNonNull(fullName.getText()).toString();
+                            newPerson.MID = Objects.requireNonNull(mid.getText()).toString();
+                            newPerson.homeTown = Objects.requireNonNull(homeTown.getText()).toString();
+                            newPerson.phoneNumber = Objects.requireNonNull(phoneNumber.getText()).toString();
+                            newPerson.branch = Objects.requireNonNull(branch.getText()).toString();
+                            newPerson.releaseDate = Objects.requireNonNull(releaseDate.getText()).toString();
                             newPerson.roomLeader = false;
 
                             newPerson.armyPeriod = armyPeriodRadioGroup.indexOfChild(armyPeriodRadioGroup.findViewById(armyPeriodRadioGroup.getCheckedRadioButtonId()));
@@ -619,7 +619,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // check whether the result is ok
         if (resultCode == RESULT_OK) {
-            // Check for the request code, we might be usign multiple startActivityForReslut
+            // Check for the request code, we might be using multiple startActivityForResult
             switch (requestCode) {
                 case REQUEST_PICK_CONTACT:
                     contactPicked(data);
@@ -634,6 +634,7 @@ public class MainActivity extends AppCompatActivity {
      * Query the Uri and read contact details. Handle the picked contact data.
      * @param data
      */
+    @SuppressLint("Recycle")
     private void contactPicked(Intent data) {
         Cursor cursor = null;
         try {

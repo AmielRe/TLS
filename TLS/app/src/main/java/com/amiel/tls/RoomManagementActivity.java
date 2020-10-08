@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class RoomManagementActivity extends AppCompatActivity {
     private static final String EXTRA_ROOM_KEY = "room";
@@ -45,7 +46,7 @@ public class RoomManagementActivity extends AppCompatActivity {
         TextView roomType = (TextView) findViewById(R.id.room_management_column2_type);
         TextView roomGender = (TextView) findViewById(R.id.room_management_column2_gender);
 
-        Room roomToView = (Room)getIntent().getExtras().getSerializable(EXTRA_ROOM_KEY);
+        Room roomToView = (Room) Objects.requireNonNull(getIntent().getExtras()).getSerializable(EXTRA_ROOM_KEY);
         maxCapacity = roomToView.maxCapacity;
         roomID = getIntent().getExtras().getInt(EXTRA_ROOM_ID_KEY);
 
