@@ -18,9 +18,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amiel.tls.db.DBHandler;
@@ -35,6 +38,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
@@ -44,11 +48,20 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
+import static com.amiel.tls.Constants.APP_PERMISSIONS_CODE;
+import static com.amiel.tls.Constants.MID_LENGTH;
+import static com.amiel.tls.Constants.PHONE_NUMBER_LENGTH;
 import static com.amiel.tls.Constants.REQUEST_PICK_CONTACT;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        FirebaseDatabase.getInstance().getReference().keepSynced(true);
 
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
@@ -88,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
                 openAddRoomDialog();
             }
         });
+
+        requestAppPermission();
     }
 
     // create an action bar button
@@ -104,112 +117,11 @@ public class MainActivity extends AppCompatActivity {
 
         switch(id){
             case R.id.option_send_message:
-                final EditText txtMessage = new EditText(this);
-
-                // Set the default text
-                txtMessage.setHint(getString(R.string.send_message_hint));
-
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.send_message_title))
-                        .setMessage(getString(R.string.send_message_message))
-                        .setView(txtMessage)
-                        .setPositiveButton(getString(R.string.send), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                AsyncTask.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        DBHandler.getAllRoomLeaders(new DBHandler.OnGetPersonDataListener() {
-                                            @Override
-                                            public void onStart() {
-
-                                            }
-
-                                            @Override
-                                            public void onSuccess(Map<Integer, Person> data) {
-                                                if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                                    Toast.makeText(MainActivity.this, getString(R.string.error_no_send_sms_permissions), Toast.LENGTH_LONG).show();
-                                                } else {
-                                                    for (Map.Entry<Integer, Person> currPerson : data.entrySet()) {
-                                                        SmsManager sm = SmsManager.getDefault();
-                                                        sm.sendTextMessage(Constants.ISRAEL_LOCALE_PHONE_PREFIX + currPerson.getValue().phoneNumber.substring(1), null, txtMessage.getText().toString(), null, null);
-                                                    }
-                                                    Toast.makeText(MainActivity.this, getString(R.string.success_sms_sent), Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFailed(DatabaseError databaseError) {
-
-                                            }
-                                        });
-
-                                    }
-                                });
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                            }
-                        })
-                        .show();
+                sendBroadcastMessage();
                 break;
 
             case R.id.option_send_form:
-
-                // Set the default text
-                View dialogView = getLayoutInflater().inflate(R.layout.send_form_dialog, null);
-                final AppCompatSpinner formTypeSpinner = (AppCompatSpinner) dialogView.findViewById(R.id.send_form_type_spinner);
-                selectedPhoneNumber = (TextInputEditText) dialogView.findViewById(R.id.send_form_phone_number_edittext);
-                final MaterialButton chooseContact = (MaterialButton) dialogView.findViewById(R.id.send_form_pick_contact_button);
-                chooseContact.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        pickContact(v);
-                    }
-                });
-
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.send_form_title))
-                        .setMessage(getString(R.string.send_form_message))
-                        .setView(dialogView)
-                        .setPositiveButton(getString(R.string.send), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                AsyncTask.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            String formToAdd = Constants.REQUEST_FORM;
-                                            if(formTypeSpinner.getSelectedItemPosition() == 1) {
-                                                formToAdd = Constants.FAULT_FORM;
-                                            }
-
-                                            String phoneNumberWithoutPrefix = Objects.requireNonNull(selectedPhoneNumber.getText()).toString().substring(1);
-                                            String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX +  phoneNumberWithoutPrefix + Constants.SEND_API_MESSAGE_PARAM + formToAdd;
-                                            Intent waIntent = new Intent(Intent.ACTION_VIEW);
-                                            waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
-                                            waIntent.setData(Uri.parse(url));
-
-                                            if (waIntent.resolveActivity(getPackageManager()) != null) {
-                                                startActivity(waIntent);
-                                            }
-                                            else {
-                                                throw new PackageManager.NameNotFoundException();
-                                            }
-
-                                        } catch (PackageManager.NameNotFoundException e) {
-                                            Toast.makeText(getBaseContext(), getString(R.string.error_whatsapp_not_installed), Toast.LENGTH_SHORT)
-                                                    .show();
-                                        }
-
-                                    }
-                                });
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                            }
-                        })
-                        .show();
+                sendForm();
                 break;
 
             case R.id.option_display_all_requests:
@@ -241,19 +153,9 @@ public class MainActivity extends AppCompatActivity {
         roomName.setError(getString(R.string.error_invalid_room_name));
         maxCapacity.setError(getString(R.string.error_invalid_max_capacity));
 
-        roomName.addTextChangedListener(new TextWatcher()  {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                if (Objects.requireNonNull(roomName.getText()).toString().length() <= 0) {
+        roomName.addTextChangedListener(new TextValidator(roomName) {
+            @Override public void validate(TextView textView, String text) {
+                if(text.length() <= 0) {
                     roomNameLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     roomName.setError(getString(R.string.error_invalid_room_name));
                 } else {
@@ -264,19 +166,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        maxCapacity.addTextChangedListener(new TextWatcher()  {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                if (Objects.requireNonNull(maxCapacity.getText()).toString().length() <= 0) {
+        maxCapacity.addTextChangedListener(new TextValidator(maxCapacity) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() <= 0) {
                     maxCapacityLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     maxCapacity.setError(getString(R.string.error_invalid_max_capacity));
                 } else {
@@ -358,19 +250,9 @@ public class MainActivity extends AppCompatActivity {
         mid.setError(getString(R.string.error_invalid_mid));
         phoneNumber.setError(getString(R.string.error_invalid_phone_number));
 
-        fullName.addTextChangedListener(new TextWatcher()  {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                if (Objects.requireNonNull(fullName.getText()).toString().length() <= 0) {
+        fullName.addTextChangedListener(new TextValidator(fullName) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() <= 0) {
                     fullNameLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     fullName.setError(getString(R.string.error_invalid_full_name));
                 } else {
@@ -381,19 +263,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        homeTown.addTextChangedListener(new TextWatcher()  {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                if (Objects.requireNonNull(homeTown.getText()).toString().length() <= 0) {
+        homeTown.addTextChangedListener(new TextValidator(homeTown) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() <= 0) {
                     homeTownLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     homeTown.setError(getString(R.string.error_invalid_home_town));
                 } else {
@@ -404,19 +276,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        branch.addTextChangedListener(new TextWatcher()  {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                if (Objects.requireNonNull(branch.getText()).toString().length() <= 0) {
+        branch.addTextChangedListener(new TextValidator(branch) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() <= 0) {
                     branchLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     branch.setError(getString(R.string.error_invalid_branch));
                 } else {
@@ -427,19 +289,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        releaseDate.addTextChangedListener(new TextWatcher()  {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                if (Objects.requireNonNull(releaseDate.getText()).toString().length() <= 0) {
+        releaseDate.addTextChangedListener(new TextValidator(releaseDate) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() <= 0) {
                     releaseDateLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     releaseDate.setError(getString(R.string.error_invalid_release_date));
                 } else {
@@ -450,19 +302,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mid.addTextChangedListener(new TextWatcher()  {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                if (Objects.requireNonNull(mid.getText()).toString().length() != 7) {
+        mid.addTextChangedListener(new TextValidator(mid) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() != MID_LENGTH) {
                     midLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     mid.setError(getString(R.string.error_invalid_mid));
                 } else {
@@ -473,19 +315,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        phoneNumber.addTextChangedListener(new TextWatcher()  {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                if (Objects.requireNonNull(phoneNumber.getText()).toString().length() != 10) {
+        phoneNumber.addTextChangedListener(new TextValidator(phoneNumber) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() != PHONE_NUMBER_LENGTH) {
                     phoneNumberLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
                     phoneNumber.setError(getString(R.string.error_invalid_phone_number));
                 } else {
@@ -654,4 +486,160 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void requestAppPermission() {
+        List<String> missingPermissions = new ArrayList<>();
+        if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
+            missingPermissions.add(Manifest.permission.SEND_SMS);
+        if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+            missingPermissions.add(Manifest.permission.CALL_PHONE);
+        if (checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)
+            missingPermissions.add(Manifest.permission.INTERNET);
+        if (checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED)
+            missingPermissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
+        if (checkSelfPermission(Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED)
+            missingPermissions.add(Manifest.permission.GET_ACCOUNTS);
+
+        if(!missingPermissions.isEmpty()) {
+            requestPermissions(new String[]
+                    {
+                            Manifest.permission.SEND_SMS,
+                            Manifest.permission.CALL_PHONE,
+                            Manifest.permission.INTERNET,
+                            Manifest.permission.ACCESS_NETWORK_STATE,
+                            Manifest.permission.GET_ACCOUNTS,
+                    }, APP_PERMISSIONS_CODE);
+        }
+    }
+
+    @AfterPermissionGranted(Constants.REQUEST_PERMISSIONS_SMS)
+    private void sendBroadcastMessage() {
+        if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            EasyPermissions.requestPermissions(
+                    this,
+                    getString(R.string.error_sms_permissions_required),
+                    Constants.REQUEST_PERMISSIONS_SMS,
+                    Manifest.permission.SEND_SMS);
+        }
+
+        final EditText txtMessage = new EditText(this);
+
+        // Set the default text
+        txtMessage.setHint(getString(R.string.send_message_hint));
+
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.send_message_title))
+                .setMessage(getString(R.string.send_message_message))
+                .setView(txtMessage)
+                .setPositiveButton(getString(R.string.send), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                DBHandler.getAllRoomLeaders(new DBHandler.OnGetPersonDataListener() {
+                                    @Override
+                                    public void onStart() {
+
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Map<Integer, Person> data) {
+                                        if(checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                                            Toast.makeText(MainActivity.this, getString(R.string.error_no_send_sms_permissions), Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            for (Map.Entry<Integer, Person> currPerson : data.entrySet()) {
+                                                SmsManager sm = SmsManager.getDefault();
+                                                sm.sendTextMessage(Constants.ISRAEL_LOCALE_PHONE_PREFIX + currPerson.getValue().phoneNumber.substring(1), null, txtMessage.getText().toString(), null, null);
+                                            }
+                                            Toast.makeText(MainActivity.this, getString(R.string.success_sms_sent), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailed(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .show();
+    }
+
+    private void sendForm() {
+        // Set the default text
+        View dialogView = getLayoutInflater().inflate(R.layout.send_form_dialog, null);
+        final AppCompatSpinner formTypeSpinner = (AppCompatSpinner) dialogView.findViewById(R.id.send_form_type_spinner);
+        selectedPhoneNumber = (TextInputEditText) dialogView.findViewById(R.id.send_form_phone_number_edittext);
+        final MaterialButton chooseContact = (MaterialButton) dialogView.findViewById(R.id.send_form_pick_contact_button);
+        chooseContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickContact(v);
+            }
+        });
+
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.send_form_title))
+                .setMessage(getString(R.string.send_form_message))
+                .setView(dialogView)
+                .setPositiveButton(getString(R.string.send), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    String formToAdd = Constants.REQUEST_FORM;
+                                    if(formTypeSpinner.getSelectedItemPosition() == 1) {
+                                        formToAdd = Constants.FAULT_FORM;
+                                    }
+
+                                    String phoneNumberWithoutPrefix = Objects.requireNonNull(selectedPhoneNumber.getText()).toString().substring(1);
+                                    String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX +  phoneNumberWithoutPrefix + Constants.SEND_API_MESSAGE_PARAM + formToAdd;
+                                    Intent waIntent = new Intent(Intent.ACTION_VIEW);
+                                    waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
+                                    waIntent.setData(Uri.parse(url));
+
+                                    if (waIntent.resolveActivity(getPackageManager()) != null) {
+                                        startActivity(waIntent);
+                                    }
+                                    else {
+                                        throw new PackageManager.NameNotFoundException();
+                                    }
+
+                                } catch (PackageManager.NameNotFoundException e) {
+                                    Toast.makeText(getBaseContext(), getString(R.string.error_whatsapp_not_installed), Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .show();
+    }
+
+    /*@Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //Checking the request code of our request
+        if (requestCode == APP_PERMISSIONS_CODE) {
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Displaying a toast
+            } else {
+                //Displaying another toast if permission is not granted
+                //Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+            }
+        }
+    }*/
 }

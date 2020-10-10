@@ -73,6 +73,8 @@
     <string name="error_whatsapp_not_installed">Whatsapp אינו מותקן</string>
     <string name="error_no_send_sms_permissions">לאפליקציה אין הרשאות לשלוח הודעה</string>
     <string name="error_no_call_permissions">לאפליקציה אין הרשאות להתקשר</string>
+    <string name="error_call_permissions_required">האפליקציה צריכה הרשאות להתקשר</string>
+    <string name="error_sms_permissions_required">האפליקציה צריכה הרשאות לשלוח הודעה</string>
 
     <string name="success_sms_sent">ההודעה נשלחה בהצלחה!</string>
 

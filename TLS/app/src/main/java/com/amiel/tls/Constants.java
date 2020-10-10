@@ -29,6 +29,9 @@ public class Constants {
     // Phone call consts
     static final String CALL_PHONE_NUMBER_PREFIX = "tel:";
 
+    static final int PHONE_NUMBER_LENGTH = 10;
+    static final int MID_LENGTH = 7;
+
     // Unique ID's in DB
     public static final int ARMY_PERIOD_MUST_INT = 0;
     public static final int ARMY_PERIOD_SIGN_INT = 1;
@@ -54,4 +57,7 @@ public class Constants {
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
     static final int REQUEST_PICK_CONTACT = 85;
     static final int REQUEST_PICK_CONTACT_ADAPTER = 86;
+    static final int REQUEST_PERMISSIONS_SMS = 83;
+    static final int REQUEST_PERMISSIONS_CALL = 84;
+    static final int APP_PERMISSIONS_CODE = 82;
 }
