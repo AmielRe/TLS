@@ -628,18 +628,4 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .show();
     }
-
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        //Checking the request code of our request
-        if (requestCode == APP_PERMISSIONS_CODE) {
-            //If permission is granted
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //Displaying a toast
-            } else {
-                //Displaying another toast if permission is not granted
-                //Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
-            }
-        }
-    }*/
 }
