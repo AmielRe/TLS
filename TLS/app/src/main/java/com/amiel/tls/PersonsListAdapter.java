@@ -163,8 +163,12 @@ public class PersonsListAdapter extends ArrayAdapter<Person> {
                                 case R.id.send_message_action:
                                     PackageManager pm=context.getPackageManager();
                                     try {
-                                        String phoneNumberWithoutPrefix = viewHolder.personPhone.getText().toString().substring(1);
-                                        String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX + phoneNumberWithoutPrefix;
+                                        String phoneNumber = viewHolder.personPhone.getText().toString();
+                                        String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM;
+                                        if(!phoneNumber.startsWith(Constants.ISRAEL_LOCALE_PHONE_PREFIX)) {
+                                            url += Constants.ISRAEL_LOCALE_PHONE_PREFIX;
+                                        }
+                                        url = url + phoneNumber;
                                         Intent waIntent = new Intent(Intent.ACTION_VIEW);
                                         waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
                                         waIntent.setData(Uri.parse(url));

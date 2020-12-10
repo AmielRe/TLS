@@ -549,7 +549,8 @@ public class MainActivity extends AppCompatActivity {
                                         } else {
                                             for (Map.Entry<Integer, Person> currPerson : data.entrySet()) {
                                                 SmsManager sm = SmsManager.getDefault();
-                                                sm.sendTextMessage(Constants.ISRAEL_LOCALE_PHONE_PREFIX + currPerson.getValue().phoneNumber.substring(1), null, txtMessage.getText().toString(), null, null);
+                                                String phoneNumber = currPerson.getValue().phoneNumber.startsWith(Constants.ISRAEL_LOCALE_PHONE_PREFIX) ? currPerson.getValue().phoneNumber : Constants.ISRAEL_LOCALE_PHONE_PREFIX + currPerson.getValue().phoneNumber;
+                                                sm.sendTextMessage(phoneNumber, null, txtMessage.getText().toString(), null, null);
                                             }
                                             Toast.makeText(MainActivity.this, getString(R.string.success_sms_sent), Toast.LENGTH_SHORT).show();
                                         }
@@ -600,8 +601,12 @@ public class MainActivity extends AppCompatActivity {
                                         formToAdd = Constants.FAULT_FORM;
                                     }
 
-                                    String phoneNumberWithoutPrefix = Objects.requireNonNull(selectedPhoneNumber.getText()).toString().substring(1);
-                                    String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX +  phoneNumberWithoutPrefix + Constants.SEND_API_MESSAGE_PARAM + formToAdd;
+                                    String phoneNumber = Objects.requireNonNull(selectedPhoneNumber.getText()).toString();
+                                    String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM;
+                                    if(!phoneNumber.startsWith(Constants.ISRAEL_LOCALE_PHONE_PREFIX)) {
+                                        url += Constants.ISRAEL_LOCALE_PHONE_PREFIX;
+                                    }
+                                    url = url + phoneNumber + Constants.SEND_API_MESSAGE_PARAM + formToAdd;
                                     Intent waIntent = new Intent(Intent.ACTION_VIEW);
                                     waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
                                     waIntent.setData(Uri.parse(url));

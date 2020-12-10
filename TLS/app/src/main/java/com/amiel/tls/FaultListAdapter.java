@@ -250,7 +250,7 @@ public class FaultListAdapter extends ArrayAdapter<FaultListItem> {
     private void contactPicked(Intent data) {
         Cursor cursor = null;
         try {
-            String phoneNo = null ;
+            String phoneNumber = null ;
             // getData() method will have the Content Uri of the selected contact
             Uri uri = data.getData();
             //Query the content uri
@@ -259,12 +259,15 @@ public class FaultListAdapter extends ArrayAdapter<FaultListItem> {
             // column index of the phone number
             int  phoneIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             // column index of the contact name
-            phoneNo = cursor.getString(phoneIndex);
+            phoneNumber = cursor.getString(phoneIndex);
 
-            String phoneNumberWithoutPrefix = phoneNo.substring(1);
             String fullMessage = lastSelectedItem.roomName.getText().toString() + ".\n" + lastSelectedItem.description.getText().toString();
 
-            String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.ISRAEL_LOCALE_PHONE_PREFIX +  phoneNumberWithoutPrefix + Constants.SEND_API_MESSAGE_PARAM + fullMessage;
+            String url = Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM;
+            if(!phoneNumber.startsWith(Constants.ISRAEL_LOCALE_PHONE_PREFIX)) {
+                url += Constants.ISRAEL_LOCALE_PHONE_PREFIX;
+            }
+            url = url + phoneNumber + Constants.SEND_API_MESSAGE_PARAM + fullMessage;
             Intent waIntent = new Intent(Intent.ACTION_VIEW);
             waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
             waIntent.setData(Uri.parse(url));
