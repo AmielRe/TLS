@@ -21,7 +21,7 @@ public class Constants {
 
     // Whatsapp Consts
     static final String WHATSAPP_PACKAGE = "com.whatsapp";
-    static final String ISRAEL_LOCALE_PHONE_PREFIX = "972";
+    static final String ISRAEL_LOCALE_PHONE_PREFIX = "+972";
     static final String SEND_API_PREFIX = "https://api.whatsapp.com/send";
     static final String SEND_API_PHONE_PARAM = "?phone=";
     static final String SEND_API_MESSAGE_PARAM = "&text=";
