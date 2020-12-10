@@ -34,6 +34,7 @@
 
     <string name="insert">הוסף</string>
     <string name="cancel">בטל</string>
+    <string name="update">עדכן</string>
     <string name="send">שלח</string>
     <string name="accept">אישור</string>
     <string name="choose">בחר</string>

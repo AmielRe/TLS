@@ -27,6 +27,12 @@ public class DBHandler{
     private static String ROOM_NAME = "roomName";
     private static String ROOM_ID = "roomID";
     private static String PERSON_ROOM_LEADER = "roomLeader";
+    private static String PERSON_ARMY_PERIOD = "armyPeriod";
+    private static String PERSON_BRANCH = "branch";
+    private static String PERSON_FULL_NAME = "fullName";
+    private static String PERSON_HOME_TOWN = "homeTown";
+    private static String PERSON_PHONE_NUMBER = "phoneNumber";
+    private static String PERSON_RELEASE_DATE = "releaseDate";
 
     private static DatabaseReference rootRef, tableRef;
     private static Integer roomCount;
@@ -181,6 +187,58 @@ public class DBHandler{
                 });
                 for(DataSnapshot currSnap : dataSnapshot.getChildren()) {
                     currSnap.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public static void getPerson(final String personMID, final String personName, final OnGetPersonDataListener listener)
+    {
+        listener.onStart();
+        rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child(TABLE_PERSONS).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Map<Integer, Person> persons = new HashMap<>();
+                        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                            Person currPerson = ds.getValue(Person.class);
+                            if(currPerson.fullName.equals(personName) && currPerson.MID.equals(personMID)) {
+                                persons.put(Integer.parseInt(ds.getKey()), currPerson);
+                            }
+                        }
+                        listener.onSuccess(persons);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        listener.onFailed(databaseError);
+                    }
+                }
+        );
+    }
+
+    public static void updatePerson(final Person personToUpdate)
+    {
+        rootRef = FirebaseDatabase.getInstance().getReference();
+        Query allOtherPersons = rootRef.child(TABLE_PERSONS).orderByChild(ROOM_ID).equalTo(personToUpdate.roomID);
+        allOtherPersons.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot currSnap : dataSnapshot.getChildren()) {
+                    if(currSnap.child(PERSON_MID).getValue(String.class).equals(personToUpdate.MID)) {
+                        currSnap.child(PERSON_ARMY_PERIOD).getRef().setValue(personToUpdate.armyPeriod);
+                        currSnap.child(PERSON_BRANCH).getRef().setValue(personToUpdate.branch);
+                        currSnap.child(PERSON_FULL_NAME).getRef().setValue(personToUpdate.fullName);
+                        currSnap.child(PERSON_HOME_TOWN).getRef().setValue(personToUpdate.homeTown);
+                        currSnap.child(PERSON_PHONE_NUMBER).getRef().setValue(personToUpdate.phoneNumber);
+                        currSnap.child(PERSON_RELEASE_DATE).getRef().setValue(personToUpdate.releaseDate);
+                    }
                 }
             }
 

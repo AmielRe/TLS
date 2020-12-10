@@ -157,7 +157,8 @@ public class FaultListAdapter extends ArrayAdapter<FaultListItem> {
                                                                 Toast.makeText(context, context.getString(R.string.error_no_send_sms_permissions), Toast.LENGTH_LONG).show();
                                                             } else {
                                                                 SmsManager sm = SmsManager.getDefault();
-                                                                sm.sendTextMessage(Constants.ISRAEL_LOCALE_PHONE_PREFIX + entry.getValue().phoneNumber.substring(1), null, context.getString(R.string.fault_fix_message), null, null);
+                                                                String phoneNumber = entry.getValue().phoneNumber.startsWith(Constants.ISRAEL_LOCALE_PHONE_PREFIX) ? entry.getValue().phoneNumber : Constants.ISRAEL_LOCALE_PHONE_PREFIX + entry.getValue().phoneNumber;
+                                                                sm.sendTextMessage(phoneNumber, null, context.getString(R.string.fault_fix_message), null, null);
                                                                 Toast.makeText(context, context.getString(R.string.success_sms_sent), Toast.LENGTH_LONG).show();
                                                             }
                                                         }
