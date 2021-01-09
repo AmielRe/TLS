@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
