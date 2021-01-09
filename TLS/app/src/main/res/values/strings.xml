@@ -102,4 +102,8 @@
 
     <string name="fault_fix_message">שלום, התקלה בחדר המגורים תוקנה.</string>
 
+    <string name="login_password">Password</string>
+    <string name="login_mid">MID</string>
+    <string name="login_login">Login</string>
+
 </resources>
