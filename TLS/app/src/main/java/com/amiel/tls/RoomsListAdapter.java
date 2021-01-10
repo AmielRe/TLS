@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +73,11 @@ public class RoomsListAdapter extends ArrayAdapter<Room> {
             viewHolder.roomName = (TextView) row.findViewById(R.id.rooms_list_item_room_name);
             viewHolder.roomCapacity = (TextView) row.findViewById(R.id.rooms_list_item_room_capacity);
             viewHolder.removeRoom = (MaterialButton) row.findViewById(R.id.rooms_list_item_room_remove);
+
+            if(!PreferencesManager.getInstance().getIsAdminValue()) {
+                viewHolder.removeRoom.setVisibility(View.GONE);
+                viewHolder.removeRoom.setEnabled(false);
+            }
 
             viewHolder.removeRoom.setOnClickListener(new View.OnClickListener() {
                 @Override

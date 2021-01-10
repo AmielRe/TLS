@@ -28,14 +28,15 @@
             app:boxStrokeWidth="2dp"
             app:boxStrokeWidthFocused="1dp"
             app:boxStrokeColor="@color/black"
-            app:hintTextColor="@color/black"
-            app:helperTextTextColor="@color/black"
+            android:hint="@string/login_mid"
+            android:textColorHint="@color/colorPrimary"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText android:id="@+id/input_mid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:hint="@string/login_mid" />
+                android:textAlignment="center"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password Label -->
@@ -47,14 +48,15 @@
             app:boxStrokeWidth="2dp"
             app:boxStrokeWidthFocused="1dp"
             app:boxStrokeColor="@color/black"
-            app:hintTextColor="@color/black"
-            app:helperTextTextColor="@color/black"
+            android:hint="@string/login_password"
+            android:textColorHint="@color/colorPrimary"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="@string/login_password"/>
+                android:textAlignment="center"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
