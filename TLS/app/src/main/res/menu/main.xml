@@ -24,4 +24,10 @@
         android:orderInCategory="400"
         android:title="@string/main_option_display_all_faults"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/option_report_fault"
+        android:orderInCategory="500"
+        android:title="@string/main_options_report_fault"
+        app:showAsAction="never" />
 </menu>
