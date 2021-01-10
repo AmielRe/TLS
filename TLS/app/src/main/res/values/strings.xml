@@ -58,6 +58,7 @@
     <string name="main_options_send_request_form">שלח טופס</string>
     <string name="main_option_display_all_requests">רשימת המתנה</string>
     <string name="main_option_display_all_faults">תקלות פתוחות</string>
+    <string name="main_options_report_fault">דווח על תקלה</string>
 
     <string name="error_fill_missing_fields">נא למלא שדות חסרים</string>
     <string name="error_message_internet_connection">אין חיבור אינטרנט זמין</string>
@@ -76,6 +77,8 @@
     <string name="error_no_call_permissions">לאפליקציה אין הרשאות להתקשר</string>
     <string name="error_call_permissions_required">האפליקציה צריכה הרשאות להתקשר</string>
     <string name="error_sms_permissions_required">האפליקציה צריכה הרשאות לשלוח הודעה</string>
+    <string name="error_invalid_password_length">סיסמא באורך 6–20 תווים</string>
+    <string name="error_invalid_message_length">יש לכתוב הודעה</string>
 
     <string name="success_sms_sent">ההודעה נשלחה בהצלחה!</string>
 
@@ -86,6 +89,11 @@
     <string name="send_message_hint">הודעה</string>
     <string name="send_message_title">שלח הודעה</string>
     <string name="send_message_message">כתוב הודעה שתישלח לכל אחראי החדרים</string>
+
+    <string name="change_password_title">אתחל סיסמא</string>
+    <string name="change_password_message">קבע סיסמא חדשה</string>
+
+    <string name="update_password">שנה סיסמא</string>
 
     <string name="insert_to_room_title">בחירת חדר</string>
     <string name="insert_to_room_message">יש לבחור את החדר הפנוי</string>
@@ -102,8 +110,9 @@
 
     <string name="fault_fix_message">שלום, התקלה בחדר המגורים תוקנה.</string>
 
-    <string name="login_password">Password</string>
-    <string name="login_mid">MID</string>
-    <string name="login_login">Login</string>
+    <string name="login_password">סיסמא</string>
+    <string name="login_mid">מספר אישי</string>
+    <string name="login_login">התחבר</string>
+    <string name="login_progress_message">מתחבר...</string>
 
 </resources>

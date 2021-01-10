@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,9 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
-
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        PreferencesManager.initializeInstance(this);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -89,27 +90,43 @@ public class MainActivity extends AppCompatActivity {
         addRoomFAB = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_room);
         addPersonFAB = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_person);
 
-        addPersonFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAddPersonDialog();
-            }
-        });
+        if(!PreferencesManager.getInstance().getIsAdminValue()) {
+            mainFAB.setVisibility(View.GONE);
+            addRoomFAB.setVisibility(View.GONE);
+            addPersonFAB.setVisibility(View.GONE);
+        } else {
+            addPersonFAB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openAddPersonDialog();
+                }
+            });
 
-        addRoomFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAddRoomDialog();
-            }
-        });
+            addRoomFAB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openAddRoomDialog();
+                }
+            });
 
-        requestAppPermission();
+            requestAppPermission();
+        }
     }
 
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+
+        if (!PreferencesManager.getInstance().getIsAdminValue()) {
+            menu.findItem(R.id.option_send_message).setVisible(false);
+            menu.findItem(R.id.option_display_all_requests).setVisible(false);
+            menu.findItem(R.id.option_send_form).setVisible(false);
+            menu.findItem(R.id.option_display_all_faults).setVisible(false);
+        } else {
+            menu.findItem(R.id.option_report_fault).setVisible(false);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -133,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.option_display_all_faults:
                 startActivity(new Intent(this, FaultListActivity.class));
+                break;
+
+            case R.id.option_report_fault:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.FAULT_FORM)));
                 break;
 
             default:
@@ -526,14 +547,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         final EditText txtMessage = new EditText(this);
-
-        // Set the default text
-        txtMessage.setHint(getString(R.string.send_message_hint));
+        LinearLayout container = new LinearLayout(this);
+        container.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(36, 0, 36, 0);
+        txtMessage.setLayoutParams(lp);
+        txtMessage.setGravity(android.view.Gravity.TOP| Gravity.START);
+        txtMessage.setInputType(InputType.TYPE_CLASS_TEXT);
+        txtMessage.setLines(1);
+        txtMessage.setMaxLines(1);
+        txtMessage.setTextDirection(View.TEXT_DIRECTION_RTL);
+        txtMessage.addTextChangedListener(new TextValidator(txtMessage) {
+            @Override public void validate(TextView textView, String text) {
+                if(text.length() < 1) {
+                    txtMessage.setError(getString(R.string.error_invalid_message_length));
+                } else {
+                    txtMessage.setError(null);
+                }
+            }
+        });
+        container.addView(txtMessage, lp);
 
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.send_message_title))
                 .setMessage(getString(R.string.send_message_message))
-                .setView(txtMessage)
+                .setView(container)
                 .setPositiveButton(getString(R.string.send), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         AsyncTask.execute(new Runnable() {

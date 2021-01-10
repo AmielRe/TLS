@@ -2,7 +2,12 @@ package com.amiel.tls;
 
 import android.content.Context;
 
-class CommonUtils {
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class CommonUtils {
 
     static String intToArmyPeriod(Context context, Integer armyPeriod)
     {
@@ -59,5 +64,14 @@ class CommonUtils {
         }
 
         return returnVal;
+    }
+
+    public static String calculateHash(String toHash) throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte hashBytes[] = messageDigest.digest(toHash.getBytes(StandardCharsets.UTF_8));
+        BigInteger noHash = new BigInteger(1, hashBytes);
+        String hashStr = noHash.toString(16);
+
+        return hashStr;
     }
 }

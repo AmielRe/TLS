@@ -11,13 +11,16 @@ public class Person {
     public Integer armyPeriod;
     public Integer roomID;
     public Boolean roomLeader;
+    public Boolean firstLogin;
+    public String passwordHash;
+    public Boolean isAdmin;
 
     public Person()
     {
 
     }
 
-    public Person(String fullName, String MID, String releaseDate, String branch, String phoneNumber, String homeTown, Integer armyPeriod, Integer roomID, Boolean roomLeader)
+    public Person(String fullName, String MID, String releaseDate, String branch, String phoneNumber, String homeTown, Integer armyPeriod, Integer roomID, Boolean roomLeader, Boolean firstLogin, String passwordHash, Boolean isAdmin)
     {
         this.fullName = fullName;
         this.MID = MID;
@@ -28,5 +31,8 @@ public class Person {
         this.armyPeriod = armyPeriod;
         this.roomID = roomID;
         this.roomLeader = roomLeader;
+        this.firstLogin = firstLogin;
+        this.passwordHash = passwordHash;
+        this.isAdmin = isAdmin;
     }
 }

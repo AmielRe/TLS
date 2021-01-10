@@ -2,6 +2,7 @@ package com.amiel.tls.db;
 
 import androidx.annotation.NonNull;
 
+import com.amiel.tls.CommonUtils;
 import com.amiel.tls.db.entities.Person;
 import com.amiel.tls.db.entities.Room;
 import com.google.firebase.database.DataSnapshot;
@@ -11,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +35,8 @@ public class DBHandler{
     private static String PERSON_HOME_TOWN = "homeTown";
     private static String PERSON_PHONE_NUMBER = "phoneNumber";
     private static String PERSON_RELEASE_DATE = "releaseDate";
+    private static String PERSON_FIRST_LOGIN = "firstLogin";
+    private static String PERSON_PASSWORD_HASH = "passwordHash";
 
     private static DatabaseReference rootRef, tableRef;
     private static Integer roomCount;
@@ -62,6 +66,14 @@ public class DBHandler{
 
     public static void addPerson(final Person newPerson)
     {
+        try {
+            newPerson.passwordHash = CommonUtils.calculateHash(newPerson.phoneNumber);
+            newPerson.isAdmin = false;
+            newPerson.firstLogin = false;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.child(TABLE_PERSONS_SIZE).addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -212,7 +224,41 @@ public class DBHandler{
                                 persons.put(Integer.parseInt(ds.getKey()), currPerson);
                             }
                         }
-                        listener.onSuccess(persons);
+                        try {
+                            listener.onSuccess(persons);
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        listener.onFailed(databaseError);
+                    }
+                }
+        );
+    }
+
+    public static void getPerson(final String personMID, final OnGetPersonDataListener listener)
+    {
+        listener.onStart();
+        rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child(TABLE_PERSONS).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Map<Integer, Person> persons = new HashMap<>();
+                        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                            Person currPerson = ds.getValue(Person.class);
+                            if(currPerson.MID.equals(personMID)) {
+                                persons.put(Integer.parseInt(ds.getKey()), currPerson);
+                            }
+                        }
+                        try {
+                            listener.onSuccess(persons);
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -238,6 +284,28 @@ public class DBHandler{
                         currSnap.child(PERSON_HOME_TOWN).getRef().setValue(personToUpdate.homeTown);
                         currSnap.child(PERSON_PHONE_NUMBER).getRef().setValue(personToUpdate.phoneNumber);
                         currSnap.child(PERSON_RELEASE_DATE).getRef().setValue(personToUpdate.releaseDate);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public static void updatePersonFirstLogin(final String mid, final String newHashedPassword, final Integer roomID)
+    {
+        rootRef = FirebaseDatabase.getInstance().getReference();
+        Query allOtherPersons = rootRef.child(TABLE_PERSONS).orderByChild(ROOM_ID).equalTo(roomID);
+        allOtherPersons.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot currSnap : dataSnapshot.getChildren()) {
+                    if(currSnap.child(PERSON_MID).getValue(String.class).equals(mid)) {
+                        currSnap.child(PERSON_FIRST_LOGIN).getRef().setValue(true);
+                        currSnap.child(PERSON_PASSWORD_HASH).getRef().setValue(newHashedPassword);
                     }
                 }
             }
@@ -431,7 +499,11 @@ public class DBHandler{
                                 persons.put(Integer.parseInt(ds.getKey()), currPerson);
                             }
                         }
-                        listener.onSuccess(persons);
+                        try {
+                            listener.onSuccess(persons);
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -457,7 +529,11 @@ public class DBHandler{
                                 persons.put(Integer.parseInt(ds.getKey()), currPerson);
                             }
                         }
-                        listener.onSuccess(persons);
+                        try {
+                            listener.onSuccess(persons);
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -480,7 +556,11 @@ public class DBHandler{
                     Person currPerson = ds.getValue(Person.class);
                     roomLeaders.put(Integer.parseInt(ds.getKey()), currPerson);
                 }
-                listener.onSuccess(roomLeaders);
+                try {
+                    listener.onSuccess(roomLeaders);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -498,7 +578,7 @@ public class DBHandler{
 
     public interface OnGetPersonDataListener {
         void onStart();
-        void onSuccess(Map<Integer, Person> data);
+        void onSuccess(Map<Integer, Person> data) throws NoSuchAlgorithmException;
         void onFailed(DatabaseError databaseError);
     }
 }
