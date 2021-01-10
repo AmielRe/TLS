@@ -70,7 +70,7 @@ import static com.amiel.tls.Constants.REQUEST_PICK_CONTACT;
 public class MainActivity extends AppCompatActivity {
 
     FloatingActionMenu mainFAB;
-    FloatingActionButton addRoomFAB, addPersonFAB;
+    FloatingActionButton addRoomFAB, addPersonFAB, addAdminFab;
     private final Map<Integer, Room> availableRooms = new HashMap<>();
     private TextInputEditText selectedPhoneNumber;
 
@@ -89,11 +89,13 @@ public class MainActivity extends AppCompatActivity {
         mainFAB = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         addRoomFAB = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_room);
         addPersonFAB = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_person);
+        addAdminFab = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_admin);
 
         if(!PreferencesManager.getInstance().getIsAdminValue()) {
             mainFAB.setVisibility(View.GONE);
             addRoomFAB.setVisibility(View.GONE);
             addPersonFAB.setVisibility(View.GONE);
+            addAdminFab.setVisibility(View.GONE);
         } else {
             addPersonFAB.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     openAddRoomDialog();
+                }
+            });
+
+            addAdminFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openAddAdminDialog();
                 }
             });
 
@@ -439,6 +448,103 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             DBHandler.addPerson(newPerson);
+                        }
+                    });
+                    builder.dismiss();
+                } else {
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_fill_missing_fields),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void openAddAdminDialog()
+    {
+        final NestedScrollView scrollViewLayout = (NestedScrollView) getLayoutInflater().inflate(R.layout.add_admin_layout, null);
+
+        final TextInputEditText fullName = scrollViewLayout.findViewById(R.id.add_admin_edit_name);
+        final TextInputEditText mid = scrollViewLayout.findViewById(R.id.add_admin_mid);
+        final TextInputEditText phoneNumber = scrollViewLayout.findViewById(R.id.add_admin_phone_number);
+
+        final TextInputLayout fullNameLayout = scrollViewLayout.findViewById(R.id.add_admin_edit_name_layout);
+        final TextInputLayout midLayout = scrollViewLayout.findViewById(R.id.add_admin_mid_layout);
+        final TextInputLayout phoneNumberLayout = scrollViewLayout.findViewById(R.id.add_admin_phone_number_layout);
+
+        fullName.setError(getString(R.string.error_invalid_full_name));
+        mid.setError(getString(R.string.error_invalid_mid));
+        phoneNumber.setError(getString(R.string.error_invalid_phone_number));
+
+        fullName.addTextChangedListener(new TextValidator(fullName) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() <= 0) {
+                    fullNameLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                    fullName.setError(getString(R.string.error_invalid_full_name));
+                } else {
+                    fullName.setError(null);
+                    fullNameLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    fullNameLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
+                }
+            }
+        });
+
+        mid.addTextChangedListener(new TextValidator(mid) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() != MID_LENGTH) {
+                    midLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                    mid.setError(getString(R.string.error_invalid_mid));
+                } else {
+                    mid.setError(null);
+                    midLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    midLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
+                }
+            }
+        });
+
+        phoneNumber.addTextChangedListener(new TextValidator(phoneNumber) {
+            @Override public void validate(TextView textView, String text) {
+                if (text.length() != PHONE_NUMBER_LENGTH) {
+                    phoneNumberLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                    phoneNumber.setError(getString(R.string.error_invalid_phone_number));
+                } else {
+                    phoneNumber.setError(null);
+                    phoneNumberLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+                    phoneNumberLayout.setEndIconDrawable(R.drawable.ic_check_circle_black_24dp);
+                }
+            }
+        });
+
+        //Finally building an AlertDialog
+        final AlertDialog builder = new AlertDialog.Builder(this)
+                .setPositiveButton(getString(R.string.insert), null)
+                .setNegativeButton(getString(R.string.cancel), null)
+                .setView(scrollViewLayout)
+                .setCancelable(false)
+                .create();
+        builder.show();
+
+        //Setting up OnClickListener on positive button of AlertDialog
+        builder.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(phoneNumber.getError() == null && mid.getError() == null && fullName.getError() == null) {
+                /*
+                   Insert and get data using Database Async way
+                 */
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            Person newPerson = new Person();
+                            newPerson.fullName = Objects.requireNonNull(fullName.getText()).toString();
+                            newPerson.MID = Objects.requireNonNull(mid.getText()).toString();
+                            newPerson.homeTown = "";
+                            newPerson.phoneNumber = Objects.requireNonNull(phoneNumber.getText()).toString();
+                            newPerson.branch = "";
+                            newPerson.releaseDate = "";
+                            newPerson.roomLeader = false;
+                            newPerson.armyPeriod = 1;
+                            newPerson.roomID = -1;
+
+                            DBHandler.addAdmin(newPerson);
                         }
                     });
                     builder.dismiss();

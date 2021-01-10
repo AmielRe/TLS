@@ -66,11 +66,13 @@ public class TopazGirlsFragment extends Fragment {
 
             @Override
             public void onSuccess(final Map<Integer, Room> data) {
-                Iterator<Map.Entry<Integer, Room>> iterator = data.entrySet().iterator();
-                while (iterator.hasNext()) {
-                    Map.Entry<Integer, Room> currRoom = iterator.next();
-                    if(currRoom.getKey() != PreferencesManager.getInstance().getRoomIDValue()) {
-                        iterator.remove();
+                if(!PreferencesManager.getInstance().getIsAdminValue()) {
+                    Iterator<Map.Entry<Integer, Room>> iterator = data.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry<Integer, Room> currRoom = iterator.next();
+                        if(currRoom.getKey() != PreferencesManager.getInstance().getRoomIDValue()) {
+                            iterator.remove();
+                        }
                     }
                 }
 

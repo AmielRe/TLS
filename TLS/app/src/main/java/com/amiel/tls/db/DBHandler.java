@@ -110,6 +110,36 @@ public class DBHandler{
         );
     }
 
+    public static void addAdmin(final Person newAdmin)
+    {
+        try {
+            newAdmin.passwordHash = CommonUtils.calculateHash(newAdmin.phoneNumber);
+            newAdmin.isAdmin = true;
+            newAdmin.firstLogin = false;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child(TABLE_PERSONS_SIZE).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        personCount = dataSnapshot.getValue(Integer.class);
+                        rootRef.child(TABLE_PERSONS_SIZE).setValue(personCount + 1);
+
+                        tableRef = rootRef.child(TABLE_PERSONS).child(String.valueOf(personCount));
+                        tableRef.setValue(newAdmin);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+        );
+    }
+
     public static void removePerson(final Person toRemove)
     {
         rootRef = FirebaseDatabase.getInstance().getReference();
