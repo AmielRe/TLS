@@ -6,7 +6,8 @@ import android.content.SharedPreferences;
 public class PreferencesManager {
 
     private static final String PREF_NAME = "com.amiel.tls.sharedPref";
-    private static final String IS_ADMIN_KEY = "com.example.app.isAdmin";
+    private static final String IS_ADMIN_KEY = "com.amiel.tls.isAdmin";
+    private static final String ROOM_ID_KEY = "com.amiel.tls.roomID";
 
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
@@ -37,6 +38,16 @@ public class PreferencesManager {
 
     public boolean getIsAdminValue() {
         return mPref.getBoolean(IS_ADMIN_KEY, false);
+    }
+
+    public void setRoomIDValue(int value) {
+        mPref.edit()
+                .putInt(ROOM_ID_KEY, value)
+                .apply();
+    }
+
+    public int getRoomIDValue() {
+        return mPref.getInt(ROOM_ID_KEY, -1);
     }
 
     public void remove(String key) {

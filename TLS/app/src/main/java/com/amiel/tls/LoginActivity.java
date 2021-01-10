@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(inputHashPassword.equals(entry.getValue().passwordHash)) {
                         PreferencesManager.getInstance().setIsAdminValue(entry.getValue().isAdmin);
+                        PreferencesManager.getInstance().setRoomIDValue(entry.getValue().roomID);
                         setCredentials(mid, progressDialog);
                     }
                     else {

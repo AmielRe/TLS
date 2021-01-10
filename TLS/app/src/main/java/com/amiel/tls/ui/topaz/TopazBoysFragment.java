@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.amiel.tls.Constants;
+import com.amiel.tls.PreferencesManager;
 import com.amiel.tls.R;
 import com.amiel.tls.RoomManagementActivity;
 import com.amiel.tls.RoomsListAdapter;
@@ -22,6 +23,7 @@ import com.amiel.tls.db.DBHandler;
 import com.amiel.tls.db.entities.Room;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.Iterator;
 import java.util.Map;
 
 public class TopazBoysFragment extends Fragment {
@@ -69,6 +71,14 @@ public class TopazBoysFragment extends Fragment {
 
             @Override
             public void onSuccess(final Map<Integer, Room> data) {
+                Iterator<Map.Entry<Integer, Room>> iterator = data.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<Integer, Room> currRoom = iterator.next();
+                    if(currRoom.getKey() != PreferencesManager.getInstance().getRoomIDValue()) {
+                        iterator.remove();
+                    }
+                }
+
                 RoomsListAdapter roomsListAdapter = new RoomsListAdapter(context, R.layout.rooms_list_item, data);
                 TopazBoysRooms.setAdapter(roomsListAdapter);
             }
