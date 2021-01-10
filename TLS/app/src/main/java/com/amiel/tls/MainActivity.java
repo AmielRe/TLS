@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             menu.findItem(R.id.option_display_all_faults).setVisible(false);
         } else {
             menu.findItem(R.id.option_report_fault).setVisible(false);
+            menu.findItem(R.id.option_send_message_to_shoval).setVisible(false);
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -154,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.option_report_fault:
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.FAULT_FORM)));
+                break;
+
+            case R.id.option_send_message_to_shoval:
+                sendMessageToShoval();
                 break;
 
             default:
@@ -663,7 +668,6 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(getBaseContext(), getString(R.string.error_whatsapp_not_installed), Toast.LENGTH_SHORT)
                                             .show();
                                 }
-
                             }
                         });
                     }
@@ -673,5 +677,25 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    private void sendMessageToShoval()
+    {
+        try {
+            Intent waIntent = new Intent(Intent.ACTION_VIEW);
+            waIntent.setPackage(Constants.WHATSAPP_PACKAGE);
+            waIntent.setData(Uri.parse(Constants.SEND_API_PREFIX + Constants.SEND_API_PHONE_PARAM + Constants.SHOVAL_PHONE_NUMBER));
+
+            if (waIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(waIntent);
+            }
+            else {
+                throw new PackageManager.NameNotFoundException();
+            }
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Toast.makeText(getBaseContext(), getString(R.string.error_whatsapp_not_installed), Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 }

@@ -59,6 +59,7 @@
     <string name="main_option_display_all_requests">רשימת המתנה</string>
     <string name="main_option_display_all_faults">תקלות פתוחות</string>
     <string name="main_options_report_fault">דווח על תקלה</string>
+    <string name="main_options_send_message_to_shoval">שלח הודעה לשובל</string>
 
     <string name="error_fill_missing_fields">נא למלא שדות חסרים</string>
     <string name="error_message_internet_connection">אין חיבור אינטרנט זמין</string>

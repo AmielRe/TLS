@@ -30,4 +30,9 @@
         android:orderInCategory="500"
         android:title="@string/main_options_report_fault"
         app:showAsAction="never" />
+
+    <item android:id="@+id/option_send_message_to_shoval"
+        android:orderInCategory="600"
+        android:title="@string/main_options_send_message_to_shoval"
+        app:showAsAction="never" />
 </menu>

@@ -28,6 +28,7 @@ public class Constants {
 
     // Phone call consts
     static final String CALL_PHONE_NUMBER_PREFIX = "tel:";
+    static final String SHOVAL_PHONE_NUMBER = "+972522318898";
 
     static final int PHONE_NUMBER_LENGTH = 10;
     static final int MID_LENGTH = 7;
