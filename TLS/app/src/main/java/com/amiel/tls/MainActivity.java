@@ -2,14 +2,21 @@ package com.amiel.tls;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.text.Editable;
@@ -45,6 +52,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.core.app.NotificationCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -69,6 +77,9 @@ import static com.amiel.tls.Constants.REQUEST_PICK_CONTACT;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    private final static String default_notification_channel_id = "default" ;
+
     FloatingActionMenu mainFAB;
     FloatingActionButton addRoomFAB, addPersonFAB, addAdminFab;
     private final Map<Integer, Room> availableRooms = new HashMap<>();
@@ -81,6 +92,12 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
         PreferencesManager.initializeInstance(this);
+
+        setNotificationService();
+        /*if(PreferencesManager.getInstance().getFirstLaunch()) {
+            setNotificationService();
+            PreferencesManager.getInstance().setFirstLaunch(false);
+        }*/
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -634,16 +651,11 @@ public class MainActivity extends AppCompatActivity {
             missingPermissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
         if (checkSelfPermission(Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED)
             missingPermissions.add(Manifest.permission.GET_ACCOUNTS);
+        if(checkSelfPermission(Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED)
+            missingPermissions.add(Manifest.permission.VIBRATE);
 
         if(!missingPermissions.isEmpty()) {
-            requestPermissions(new String[]
-                    {
-                            Manifest.permission.SEND_SMS,
-                            Manifest.permission.CALL_PHONE,
-                            Manifest.permission.INTERNET,
-                            Manifest.permission.ACCESS_NETWORK_STATE,
-                            Manifest.permission.GET_ACCOUNTS,
-                    }, APP_PERMISSIONS_CODE);
+            requestPermissions(missingPermissions.toArray(new String[missingPermissions.size()]), APP_PERMISSIONS_CODE);
         }
     }
 
@@ -803,5 +815,33 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), getString(R.string.error_whatsapp_not_installed), Toast.LENGTH_SHORT)
                     .show();
         }
+    }
+
+    private void setNotificationService() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id );
+        builder.setContentTitle("מסדר ניקיון במגורים");
+        builder.setContentText("היי! מזכירים לך שבעוד 15 דקות יש מסדר ניקיון במגורים");
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon));
+        builder.setSmallIcon(R.drawable.app_icon);
+        builder.setAutoCancel(true);
+        builder.setWhen(System.currentTimeMillis());
+        builder.setShowWhen(true);
+        builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+        Notification notification = builder.build() ;
+
+        Intent notificationIntent = new Intent( this, AlarmReceiver.class ) ;
+        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_ID , 1 ) ;
+        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION , notification) ;
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
+
+        Calendar calendar = Calendar.getInstance();
+        //calendar.set(Calendar.DAY_OF_WEEK, 5);
+        calendar.set(Calendar.HOUR, 9);
+        calendar.set(Calendar.MINUTE, 30);
+        calendar.set(Calendar.SECOND, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE) ;
+        assert alarmManager != null;
+
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 }
