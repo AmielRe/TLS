@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.error_login_failed), Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }
@@ -145,14 +145,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (mid.isEmpty()) {
-            _midText.setError("enter a valid MID");
+            _midText.setError(getString(R.string.error_invalid_mid));
             valid = false;
         } else {
             _midText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 6 || password.length() > 20) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError(getString(R.string.error_invalid_password_length));
             valid = false;
         } else {
             _passwordText.setError(null);

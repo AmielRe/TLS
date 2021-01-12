@@ -81,6 +81,7 @@
     <string name="error_sms_permissions_required">האפליקציה צריכה הרשאות לשלוח הודעה</string>
     <string name="error_invalid_password_length">סיסמא באורך 6–20 תווים</string>
     <string name="error_invalid_message_length">יש לכתוב הודעה</string>
+    <string name="error_login_failed">התחברות נכשלה</string>
 
     <string name="success_sms_sent">ההודעה נשלחה בהצלחה!</string>
 
