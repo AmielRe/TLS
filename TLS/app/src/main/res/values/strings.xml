@@ -62,6 +62,8 @@
     <string name="main_options_report_fault">דווח על תקלה</string>
     <string name="main_options_send_message_to_shoval">שלח הודעה לשובל</string>
 
+    <string name="room_options_send_message_to_room">שלח הודעה לכל החדר</string>
+
     <string name="error_fill_missing_fields">נא למלא שדות חסרים</string>
     <string name="error_message_internet_connection">אין חיבור אינטרנט זמין</string>
     <string name="error_message_google_account_access">האפליקציה צריכה לגשת לחשבון הגוגל שלך</string>
@@ -92,6 +94,7 @@
     <string name="send_message_hint">הודעה</string>
     <string name="send_message_title">שלח הודעה</string>
     <string name="send_message_message">כתוב הודעה שתישלח לכל אחראי החדרים</string>
+    <string name="send_message_to_room_message">כתוב הודעה שתישלח לכל החדר</string>
 
     <string name="change_password_title">אתחל סיסמא</string>
     <string name="change_password_message">קבע סיסמא חדשה</string>
