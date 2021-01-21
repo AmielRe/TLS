@@ -93,11 +93,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         PreferencesManager.initializeInstance(this);
 
-        setNotificationService();
-        /*if(PreferencesManager.getInstance().getFirstLaunch()) {
+        if(PreferencesManager.getInstance().getFirstLaunch()) {
             setNotificationService();
             PreferencesManager.getInstance().setFirstLaunch(false);
-        }*/
+        }
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -818,30 +817,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setNotificationService() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id );
-        builder.setContentTitle("מסדר ניקיון במגורים");
-        builder.setContentText("היי! מזכירים לך שבעוד 15 דקות יש מסדר ניקיון במגורים");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id);
+        builder.setContentTitle("מסדר במגורים");
+        builder.setContentText("היי! מזכירים לך שבעוד 20 דקות יש מסדר ניקיון במגורים");
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon));
         builder.setSmallIcon(R.drawable.app_icon);
+        builder.setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL);
         builder.setAutoCancel(true);
         builder.setWhen(System.currentTimeMillis());
         builder.setShowWhen(true);
         builder.setChannelId(NOTIFICATION_CHANNEL_ID);
         Notification notification = builder.build() ;
 
-        Intent notificationIntent = new Intent( this, AlarmReceiver.class ) ;
-        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_ID , 1 ) ;
-        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION , notification) ;
-        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
+        Intent notificationIntent = new Intent( this, AlarmReceiver.class );
+        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_ID , 1 );
+        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION , notification);
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent ,0);
 
         Calendar calendar = Calendar.getInstance();
-        //calendar.set(Calendar.DAY_OF_WEEK, 5);
-        calendar.set(Calendar.HOUR, 9);
-        calendar.set(Calendar.MINUTE, 30);
+        calendar.set(Calendar.DAY_OF_WEEK, 5);
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 40);
         calendar.set(Calendar.SECOND, 0);
+
+        if(Calendar.getInstance().after(calendar)){
+            // Move to next week
+            calendar.add(Calendar.DATE, 7);
+        }
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE) ;
         assert alarmManager != null;
 
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 }

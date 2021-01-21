@@ -18,7 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".AlarmReceiver" android:enabled="true" />
+        <receiver android:name="com.amiel.tls.AlarmReceiver" android:enabled="true" android:exported="true">
+            <intent-filter>
+                <action android:name="com.project.action.ALERM"/>
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".MainActivity"
