@@ -1,29 +1,36 @@
-# README #
+# TLS
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Android application for managing rooms in military base
 
-### What is this repository for? ###
+![alt text](https://github.com/AmielRe/TLS/blob/main/images/app_icon.jpg?raw=true)
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Getting Started
 
-### How do I get set up? ###
+These instructions will cover run and usage information
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### Prerequisites
 
-### Contribution guidelines ###
+In order to run this code you'll need to install Android Studio and import the project
+See the [Android Studio website](https://developer.android.com/studio/install) for installation instructions.
 
-* Writing tests
-* Code review
-* Other guidelines
+## Usage
 
-### Who do I talk to? ###
+Run the code using Emulator or physical connected device.
 
-* Repo owner or admin
-* Other community or team contact
+## Screenshots
+
+## LoginPage
+
+![alt text](https://github.com/AmielRe/TLS/blob/main/images/LoginPage.jpeg?raw=true)
+
+## MainPage
+
+![alt text](https://github.com/AmielRe/TLS/blob/main/images/MainPage.jpeg?raw=true)
+
+## NewSoldierPage
+
+![alt text](https://github.com/AmielRe/TLS/blob/main/images/NewSoldierPage.jpeg?raw=true)
+
+## Authors
+
+- **Amiel Refaeli** - [Github](https://github.com/AmielRe)
