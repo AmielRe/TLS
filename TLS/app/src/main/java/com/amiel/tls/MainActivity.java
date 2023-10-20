@@ -192,14 +192,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void openAddRoomDialog()
-    {
-        final NestedScrollView scrollViewLayout = (NestedScrollView) getLayoutInflater().inflate(R.layout.add_room_layout, null);
+      private void openAddRoomDialog()
+        {
+            final NestedScrollView scrollViewLayout = (NestedScrollView) getLayoutInflater().inflate(R.layout.add_room_layout, null);
 
-        final TextInputEditText roomName = scrollViewLayout.findViewById(R.id.add_room_edit_name);
-        final RadioGroup typeRadioGroup = scrollViewLayout.findViewById(R.id.add_room_radio_group_type);
-        final RadioGroup genderRadioGroup = scrollViewLayout.findViewById(R.id.add_room_radio_group_gender);
-        final TextInputEditText maxCapacity = scrollViewLayout.findViewById(R.id.add_room_max_capacity);
+            final TextInputEditText roomName = scrollViewLayout.findViewById(R.id.add_room_edit_name);
+            final RadioGroup typeRadioGroup = scrollViewLayout.findViewById(R.id.add_room_radio_group_type);
+            final RadioGroup genderRadioGroup = scrollViewLayout.findViewById(R.id.add_room_radio_group_gender);
+            final TextInputEditText maxCapacity = scrollViewLayout.findViewById(R.id.add_room_max_capacity);
 
         final TextInputLayout roomNameLayout = scrollViewLayout.findViewById(R.id.add_room_edit_name_layout);
         final TextInputLayout maxCapacityLayout = scrollViewLayout.findViewById(R.id.add_room_max_capacity_layout);

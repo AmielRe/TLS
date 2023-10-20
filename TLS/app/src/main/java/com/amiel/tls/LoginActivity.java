@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
                                 AsyncTask.execute(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if(newPassword.getError() == null) {
+                                        if(!newPassword.getText().toString().isEmpty() && newPassword.getError() == null) {
                                             try {
                                                 String newHashedPasword = CommonUtils.calculateHash(newPassword.getText().toString());
                                                 DBHandler.updatePersonFirstLogin(mid, newHashedPasword, entry.getValue().roomID);
