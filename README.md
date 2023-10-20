@@ -2,7 +2,7 @@
 
 Android application for managing rooms in military base
 
-![alt text](https://github.com/AmielRe/TLS/blob/main/images/app_icon.jpg?raw=true)
+![alt text](https://github.com/AmielRe/TLS/blob/master/images/app_icon.png?raw=true)
 
 ## Getting Started
 
@@ -21,15 +21,15 @@ Run the code using Emulator or physical connected device.
 
 ## LoginPage
 
-![alt text](https://github.com/AmielRe/TLS/blob/main/images/LoginPage.jpeg?raw=true)
+![alt text](https://github.com/AmielRe/TLS/blob/master/images/LoginPage.jpeg?raw=true)
 
 ## MainPage
 
-![alt text](https://github.com/AmielRe/TLS/blob/main/images/MainPage.jpeg?raw=true)
+![alt text](https://github.com/AmielRe/TLS/blob/master/images/MainPage.jpeg?raw=true)
 
 ## NewSoldierPage
 
-![alt text](https://github.com/AmielRe/TLS/blob/main/images/NewSoldierPage.jpeg?raw=true)
+![alt text](https://github.com/AmielRe/TLS/blob/master/images/NewSoldierPage.jpeg?raw=true)
 
 ## Authors
 
